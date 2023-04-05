@@ -9,13 +9,15 @@ import { createStream } from "rotating-file-stream";
 dotenv.config();
 
 // Get environment variables
-const logLevel = process.env.LOG_LEVEL ?? "info";
-const logFile = process.env.LOG_FILE ?? "access.log";
-const logDirectory = process.env.LOG_DIRECTORY ?? "logs";
-const logMaxFiles = process.env.LOG_MAX_FILES ?? "7";
-const logCompress = process.env.LOG_COMPRESS === "true";
-const logInterval = process.env.LOG_INTERVAL ?? "1d";
-const logTimezone = process.env.LOG_TIMEZONE ?? "Asia/Jakarta";
+const log = {
+    level: process.env.LOG_LEVEL ?? "info",
+    file: process.env.LOG_FILE ?? "access.log",
+    directory: process.env.LOG_DIRECTORY ?? "logs",
+    maxFiles: process.env.LOG_MAX_FILES ?? "7",
+    compress: process.env.LOG_COMPRESS === "true",
+    interval: process.env.LOG_INTERVAL ?? "1d",
+    timezone: process.env.LOG_TIMEZONE ?? "Asia/Jakarta"
+};
 
 // Create name format for log files
 const pad = (num: number) => {
@@ -25,33 +27,33 @@ const filename = (time: Date = new Date()) => {
   var year = time.getFullYear();
   var month = pad(time.getMonth() + 1);
   var day = pad(time.getDate());
-  return `${year}-${month}-${day}-${logFile}`;
+  return `${year}-${month}-${day}-${log.file}`;
 };
 
 // Create write stream for log files (rotate daily)
 const accessLogStream = createStream(filename(), {
-    interval: logInterval,                                  // rotate daily
-    path: path.join(__dirname, `../../${logDirectory}`),    // log files are stored in this directory
-    maxFiles: parseInt(logMaxFiles),                        // keep back copies
-    compress: logCompress ? "gzip" : false                  // compress rotated files
+    interval: log.interval,                                  // rotate daily
+    path: path.join(__dirname, `../../${log.directory}`),    // log files are stored in this directory
+    maxFiles: parseInt(log.maxFiles),                        // keep back copies
+    compress: log.compress ? "gzip" : false                  // compress rotated files
 });
 
 // Create logger
 const logger = pino({
-    timestamp: () => `,"time":"${moment().tz(logTimezone).format('HH:mm:ss.SSSZ')}"`,
-    level: logLevel,
+    timestamp: () => `,"time":"${moment().tz(log.timezone).format('HH:mm:ss.SSSZ')}"`,
+    level: log.level,
     stream: accessLogStream,
     transport: {
         targets: [
             {
                 // Write to log file
-                level: logLevel,
+                level: log.level,
                 target: "pino/file",
-                options: { destination: `${logDirectory}/${filename()}` }
+                options: { destination: `${log.directory}/${filename()}` }
             },
             {
                 // Write to console
-                level: logLevel,
+                level: log.level,
                 target: "pino-pretty",
                 options: { colorize: true }
             }
