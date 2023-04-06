@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 
 // Import modules
 import app from "./app";
+import database from "./database/config-database";
 
 // Load environment variables
 dotenv.config();
@@ -12,6 +13,9 @@ dotenv.config();
 const port = process.env.PORT ?? "5000";
 const host = process.env.HOST ?? "localhost";
 const debugMode = process.env.DEBUG_MODE === 'true';
+
+// Connect to database
+database.connect();
 
 // Start server on port
 app.listen({ port: parseInt(port), host: host }, function (err) {
