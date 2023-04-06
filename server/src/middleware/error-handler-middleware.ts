@@ -9,7 +9,7 @@ import dotenv from 'dotenv';
 import { FastifyRequest, FastifyReply, FastifyError } from 'fastify';
 
 // Import models
-import StatusAPI from '../models/status-api-model';
+import StatusAPI from '../database/enums/status-api-enum';
 
 // Import modules
 import app from '../app';

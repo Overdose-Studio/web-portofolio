@@ -8,7 +8,7 @@
 import { AnySchema } from 'joi';
 
 // Import models
-import ErrorAPI from "../models/error-api-model";
+import ErrorAPI from "../database/enums/error-api-enum";
 
 // Create validator compiler input type
 type ValidatorCompilerInput = {
