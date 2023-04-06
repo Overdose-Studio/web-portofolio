@@ -1,25 +1,22 @@
 // Import dependencies
+import dotenv from 'dotenv';
 import { FastifyInstance } from 'fastify';
 
 // Import routes
 import csrfRouter from './csrf-route';
+import testRoute from './optional/test-route';
 
-//!DEBUG
-import StatusAPI from '../models/status-api-model';
+// Load environment variables
+dotenv.config();
+
+// Get environment variables
+const production = process.env.NODE_ENV === 'production';
 
 // Create main router
 const router = async (app: FastifyInstance) => {
     // Register other routes
-    app.register(csrfRouter);               // CSRF route
-
-    // Test route
-    app.get('/', async (request, reply) => {
-        reply.json({
-            status: StatusAPI.SUCCESS,
-            status_code: 200,
-            message: 'Hello World!'
-        })
-    });
+    app.register(csrfRouter);                                           // CSRF route
+    if (!production) app.register(testRoute, { prefix: '/test' });      // Test route (only in development)
 };
 
 // Export main router
