@@ -5,6 +5,7 @@ import helmet from '@fastify/helmet';
 // Import middleware
 import errorHandler from './middleware/error-handler-middleware';
 import notFoundHandler from './middleware/not-found-handler-middleware';
+import validatorCompiler from './middleware/validation-compiler-middleware';
 
 // Import modules
 import logger from './utils/logger';
@@ -28,6 +29,7 @@ app.register(jsonResponse);                                 // Register JSON res
 app.register(errorAttribute);                               // Register error attribute plugin (decorate reply object)
 app.setErrorHandler(errorHandler);                          // Set error handler middleware (handle errors)
 app.setNotFoundHandler(notFoundHandler);                    // Set not found handler middleware (handle 404 errors)
+app.setValidatorCompiler(validatorCompiler);                // Set validator compiler middleware (handle validation errors)
 
 // Export app
 export default app;
