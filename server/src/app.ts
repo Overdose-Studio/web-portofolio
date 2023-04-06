@@ -7,6 +7,9 @@ import helmet from '@fastify/helmet';
 // Import modules
 import logger from './utils/logger';
 
+// Import plugins
+import formBodyParser from './plugins/form-body-parser-plugin';
+
 // Load environment variables
 dotenv.config();
 
@@ -36,6 +39,7 @@ app.register(cookie, {                                      // Parse and set coo
         maxAge: cookieENV.maxAge,                           //------ Set cookie max age to default 1 day
     }
 });
+app.register(formBodyParser);                               // Parse and set form data
 
 // Export app
 export default app;
