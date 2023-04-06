@@ -27,7 +27,7 @@ const errorHandler = (error: FastifyError, request: FastifyRequest, reply: Fasti
 
     // Get data from request object and error 
     const { status, data, meta, links, included, type } = reply.error;
-    const { statusCode, code, message, stack } = error
+    const { statusCode, code, message, stack, details } = error
 
     // Set response status code
     const htmlStatus = statusCode ?? reply.statusCode ?? 500;
@@ -39,7 +39,7 @@ const errorHandler = (error: FastifyError, request: FastifyRequest, reply: Fasti
         status_code: htmlStatus !== 200 ? htmlStatus : 500,
         code: type ?? code,
         message: message,
-        data: data,
+        data: data ?? details,
         meta: meta,
         links: links,
         included: included,
