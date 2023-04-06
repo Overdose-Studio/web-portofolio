@@ -9,6 +9,7 @@ import validatorCompiler from './middleware/validation-compiler-middleware';
 
 // Import modules
 import logger from './utils/logger';
+import router from './routes/router';
 
 // Import plugins
 import cookieParser from './plugins/cookie-parser-plugin';
@@ -25,6 +26,7 @@ app.register(helmet);                                       // Set security HTTP
 app.register(cookieParser);                                 // Parse and set cookies
 app.register(formBodyParser);                               // Parse and set form data
 app.register(corsSecurity);                                 // Enable CORS security for all routes
+app.register(router);                                       // Register main router
 app.register(jsonResponse);                                 // Register JSON response plugin (decorate reply object)
 app.register(errorAttribute);                               // Register error attribute plugin (decorate reply object)
 app.setErrorHandler(errorHandler);                          // Set error handler middleware (handle errors)
