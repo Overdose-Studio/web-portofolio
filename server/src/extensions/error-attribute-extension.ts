@@ -4,7 +4,7 @@
 import 'fastify';
 
 // Import models
-import ErrorAPI from '../models/error-api-model';
+import ErrorAPI from '../database/enums/error-api-enum';
 import StatusAPI from '../models/status-api-model';
 
 // Create Error Properties interface
