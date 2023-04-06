@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@fastify/cookie": "^8.3.0",
+    "@fastify/formbody": "^7.4.0",
     "@fastify/helmet": "^10.1.0",
     "colors": "^1.4.0",
     "dotenv": "^16.0.3",
