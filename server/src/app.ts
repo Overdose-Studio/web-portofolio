@@ -4,6 +4,7 @@ import helmet from '@fastify/helmet';
 
 // Import middleware
 import errorHandler from './middleware/error-handler-middleware';
+import notFoundHandler from './middleware/not-found-handler-middleware';
 
 // Import modules
 import logger from './utils/logger';
@@ -26,6 +27,7 @@ app.register(corsSecurity);                                 // Enable CORS secur
 app.register(jsonResponse);                                 // Register JSON response plugin (decorate reply object)
 app.register(errorAttribute);                               // Register error attribute plugin (decorate reply object)
 app.setErrorHandler(errorHandler);                          // Set error handler middleware (handle errors)
+app.setNotFoundHandler(notFoundHandler);                    // Set not found handler middleware (handle 404 errors)
 
 // Export app
 export default app;
