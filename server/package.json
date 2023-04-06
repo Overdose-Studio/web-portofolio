@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node dist/index.js",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "seed": "ts-node src/database/seeder-database.ts",
+    "seed:fresh": "npm run seed -d fresh"
   },
   "author": "ubeann",
   "license": "ISC",
@@ -16,8 +18,10 @@
     "@fastify/csrf-protection": "^6.2.0",
     "@fastify/formbody": "^7.4.0",
     "@fastify/helmet": "^10.1.0",
+    "bcrypt": "^5.1.0",
     "colors": "^1.4.0",
     "dotenv": "^16.0.3",
+    "faker": "^5.5.3",
     "fastify": "^4.15.0",
     "joi": "^17.9.1",
     "moment-timezone": "^0.5.43",
@@ -28,6 +32,8 @@
     "ts-node-dev": "^2.0.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/faker": "^5.5.3",
     "@types/node": "^18.15.11",
     "pino-pretty": "^10.0.0"
   }
