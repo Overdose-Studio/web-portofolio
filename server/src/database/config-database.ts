@@ -54,6 +54,16 @@ const database: Database = {
             console.error(err);
             process.exit(1);
         }
+    },
+
+    // Close connection
+    close: async () => {
+        try {
+            await mongoose.connection.close();
+        } catch (err) {
+            console.error(err);
+            process.exit(1);
+        }
     }
 };
 
