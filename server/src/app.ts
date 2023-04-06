@@ -14,6 +14,7 @@ import router from './routes/router';
 // Import plugins
 import cookieParser from './plugins/cookie-parser-plugin';
 import corsSecurity from './plugins/cors-security-plugin';
+import csrfSecurity from './plugins/csrf-security-plugin';
 import errorAttribute from './plugins/error-attribute-plugin';
 import formBodyParser from './plugins/form-body-parser-plugin';
 import jsonResponse from './plugins/json-response-plugin';
@@ -25,7 +26,8 @@ const app = Fastify({ logger: logger });
 app.register(helmet);                                       // Set security HTTP headers
 app.register(cookieParser);                                 // Parse and set cookies
 app.register(formBodyParser);                               // Parse and set form data
-app.register(corsSecurity);                                 // Enable CORS security for all routes
+app.register(corsSecurity);                                 // Enable CORS security
+app.register(csrfSecurity);                                 // Enable CSRF security
 app.register(router);                                       // Register main router
 app.register(jsonResponse);                                 // Register JSON response plugin (decorate reply object)
 app.register(errorAttribute);                               // Register error attribute plugin (decorate reply object)
