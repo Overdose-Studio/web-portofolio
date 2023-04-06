@@ -2,12 +2,16 @@
 import Fastify from 'fastify';
 import helmet from '@fastify/helmet';
 
+// Import middleware
+import errorHandler from './middleware/error-handler-middleware';
+
 // Import modules
 import logger from './utils/logger';
 
 // Import plugins
 import cookieParser from './plugins/cookie-parser-plugin';
 import corsSecurity from './plugins/cors-security-plugin';
+import errorAttribute from './plugins/error-attribute-plugin';
 import formBodyParser from './plugins/form-body-parser-plugin';
 import jsonResponse from './plugins/json-response-plugin';
 
@@ -20,6 +24,8 @@ app.register(cookieParser);                                 // Parse and set coo
 app.register(formBodyParser);                               // Parse and set form data
 app.register(corsSecurity);                                 // Enable CORS security for all routes
 app.register(jsonResponse);                                 // Register JSON response plugin (decorate reply object)
+app.register(errorAttribute);                               // Register error attribute plugin (decorate reply object)
+app.setErrorHandler(errorHandler);                          // Set error handler middleware (handle errors)
 
 // Export app
 export default app;
