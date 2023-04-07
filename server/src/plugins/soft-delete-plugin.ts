@@ -11,11 +11,6 @@ const softDelete = (schema: Schema) => {
         }
     });
 
-    // Add the notDeleted method
-    schema.static("notDeleted", function() {
-        return this.where({ deleted_at: null });
-    });
-
     // Add the soft delete method
     schema.method("softDelete", function() {
         this.deleted_at = new Date();

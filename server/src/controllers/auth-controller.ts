@@ -68,7 +68,6 @@ export const login = async (request: FastifyRequest, reply: FastifyReply) => {
     reply.status(200);
     reply.json({
         status: StatusAPI.SUCCESS,
-        status_code: 200,
         message: 'User authenticated successfully',
         data: {
             user: {
