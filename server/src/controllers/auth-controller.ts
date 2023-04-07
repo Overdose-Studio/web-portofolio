@@ -18,6 +18,7 @@ dotenv.config();
 
 // Get environment variables
 const jwt = {
+    cookieName: process.env.JWT_COOKIE_NAME ?? 'refresh_token',
     maxAge: parseInt(process.env.JWT_COOKIE_MAX_AGE ?? '604800000'),
 };
 
@@ -59,7 +60,7 @@ export const login = async (request: FastifyRequest, reply: FastifyReply) => {
     });
 
     // Set cookie for refresh token
-    reply.setCookie('refresh_token', refreshToken, {
+    reply.setCookie(jwt.cookieName, refreshToken, {
         path: '/',                                                              // Cookie is valid for all routes
         expires: remember ? new Date(Date.now() + jwt.maxAge) : undefined,      // Cookie expires after 7 days
     });

@@ -7,18 +7,17 @@ import UserAction from "../../enums/user-action-enum";
 
 // Import interfaces
 import IUserLog from "../transactions/user-log-document";
+import SoftDeleteDocument from "../../../interfaces/soft-delete-document-interface";
+import TimestampDocument from "../../../interfaces/timestamp-document-interface";
 import TokenPayloadJWT from "../../../interfaces/jwt-payload-interface";
 
 // Create a user document
-interface IUser extends Document {
+interface IUser extends Document, TimestampDocument, SoftDeleteDocument {
     // Properties
     name: string;
     email: string;
     role: string;
     password: string;
-    created_at: Date;
-    updated_at: Date;
-    deleted_at: Date;
 
     // Methods
     comparePassword(password: string): Promise<boolean>;
