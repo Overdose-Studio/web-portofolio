@@ -1,7 +1,7 @@
 // Create enum for user role
 enum UserRole {
     ADMIN = "admin",            //     Admin: Can do everything
-    CUSTOMER = "customer",      //  Customer: Comin soon
+    CUSTOMER = "customer",      //  Customer: Coming soon
     DEVELOPER = "developer"     // Developer: Can do project related data
 }
 
