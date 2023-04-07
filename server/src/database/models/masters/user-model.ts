@@ -7,8 +7,7 @@ import { Schema, model } from "mongoose";
 import IUser from "../../documents/masters/user-document";
 
 // Import enums
-import ErrorAPI from "../../enums/error-api-enum";
-import StatusAPI from "../../enums/status-api-enum";
+import { ErrorAPI, StatusAPI } from "../../enums/api-enum";
 import UserRole from "../../enums/user-role-enum";
 import UserAction from "../../enums/user-action-enum";
 

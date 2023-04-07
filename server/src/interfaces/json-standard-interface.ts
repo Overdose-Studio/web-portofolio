@@ -1,5 +1,5 @@
 // Import models
-import StatusAPI from '../database/enums/status-api-enum';
+import { StatusAPI } from '../database/enums/api-enum';
 
 // Create JSON standard interface
 interface JSON_Standard {
