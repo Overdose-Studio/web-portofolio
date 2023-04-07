@@ -10,13 +10,16 @@ import {
     deleteDeveloper
 } from '../../controllers/developer/developer-basic-controller';
 
+// Import plugins
+import paginationPlugin from '../../plugins/pagination-payload-plugin';
+
 // Import validation schemas
 import { idParamsSchema } from '../../validations/params-validation';
 import { developerBasicSchema } from '../../validations/developer-payload-validation';
 
 // Create router
 const developerBasicRouter = async (app: FastifyInstance) => {
-    app.get('/', getAllDevelopers);
+    app.get('/', paginationPlugin, getAllDevelopers);
     app.get('/:id', { schema: idParamsSchema }, getDeveloper);
     app.post('/', { schema: developerBasicSchema }, createDeveloper);
     app.put('/:id', { schema: { ...idParamsSchema, ...developerBasicSchema } }, updateDeveloper);
