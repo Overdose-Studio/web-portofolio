@@ -35,7 +35,6 @@ export const generateCSRFToken = async (request: FastifyRequest, reply: FastifyR
     reply.status(200);
     reply.json({
         status: StatusAPI.SUCCESS,
-        status_code: 200,
         message: 'CSRF token generated successfully',
         data: {
             csrf_token: token
