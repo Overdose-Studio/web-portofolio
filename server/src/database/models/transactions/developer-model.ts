@@ -24,40 +24,40 @@ const developerSchema = new Schema<IDeveloper>({
     },
     age: {
         type: Number,
-        default: undefined
+        default: null
     },
     type: {
         type: String,
-        enum: Object.values(DeveloperType),
-        default: undefined
+        enum: [...Object.values(DeveloperType), null],
+        default: null
     },
     location: {
         type: String,
-        default: undefined
+        default: null
     },
     photo: {
         type: Schema.Types.ObjectId,
         ref: DeveloperPhoto,
-        default: undefined
+        default: null
     },
     educations: [{
         type: Schema.Types.ObjectId,
         ref: DeveloperEducation,
-        default: undefined
+        default: null
     }],
     contacts: [{
         type: Schema.Types.ObjectId,
         ref: DeveloperContact,
-        default: undefined
+        default: null
     }],
     about: {
         type: String,
-        default: undefined
+        default: null
     },
     user: {
         type: Schema.Types.ObjectId,
         ref: User,
-        default: undefined
+        default: null
     }
 }, {
     timestamps: {
