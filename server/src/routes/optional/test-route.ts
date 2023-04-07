@@ -2,7 +2,7 @@
 import { FastifyInstance } from 'fastify';
 
 // Import models
-import StatusAPI from '../../database/enums/status-api-enum';
+import { StatusAPI } from '../../database/enums/api-enum';
 
 // Create router
 const testRoute = async (app: FastifyInstance) => {

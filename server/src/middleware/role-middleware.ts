@@ -2,8 +2,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 
 // Import enums
-import ErrorAPI from '../database/enums/error-api-enum';
-import StatusAPI from '../database/enums/status-api-enum';
+import { ErrorAPI, StatusAPI } from '../database/enums/api-enum';
 import UserRole from '../database/enums/user-role-enum';
 
 // Create auth middleware to check if user is authenticated

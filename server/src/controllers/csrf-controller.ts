@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import { FastifyRequest, FastifyReply} from 'fastify';
 
 // Import models
-import StatusAPI from '../database/enums/status-api-enum';
+import { StatusAPI } from '../database/enums/api-enum';
 
 // Load environment variables
 dotenv.config();
