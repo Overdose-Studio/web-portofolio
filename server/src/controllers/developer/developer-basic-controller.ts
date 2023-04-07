@@ -12,22 +12,37 @@ import { IObjectIdParams } from '../../interfaces/params-interface';
 // Import models
 import Developer from '../../database/models/transactions/developer-model';
 
+// Import utils
+import { getPaginatedData } from '../../utils/pagination';
+
 // @desc   Get all developers
 // @route  GET /developer/basic
 // @access Private (Admin, Developer)
 export const getAllDevelopers = async (request: FastifyRequest, reply: FastifyReply) => {
     // Get all developers
-    const developers = await Developer
-        .find()
-        .where('deleted_at')
-        .equals(null);
+    const result = await getPaginatedData(Developer, reply, request, {
+        select: ['-educations', '-contacts', '-user', '-created_at', '-updated_at']
+    });
+
+    // Check pagination result
+    if (result.data.length === 0) {
+        // Set response when error occurs
+        reply.status(404);
+        reply.error = {
+            status: StatusAPI.FAILED,
+            type: ErrorAPI.NOT_FOUND,
+            meta: result.meta
+        };
+        throw new Error('Developers not found, please check your pagination query');
+    }
 
     // Send response
     reply.code(200);
     reply.json({
         status: StatusAPI.SUCCESS,
         message: 'Get all developers successfully',
-        data: developers
+        data: result.data,
+        meta: result.meta
     });
 };
 
