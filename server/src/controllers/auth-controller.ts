@@ -4,7 +4,7 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 
 // Import enums
 import { ErrorAPI, StatusAPI } from '../database/enums/api-enum';
-import UserAction from '../database/enums/user-action-enum';
+import { UserAction } from '../database/enums/user-enum';
 
 // Import interfaces
 import { ILoginRequest } from '../interfaces/auth-payload-interface';

@@ -3,7 +3,7 @@ import { Document } from "mongoose";
 import { FastifyReply } from "fastify";
 
 // Import enums
-import UserAction from "../../enums/user-action-enum";
+import { UserAction } from "../../enums/user-enum";
 
 // Import interfaces
 import IUserLog from "../transactions/user-log-document";

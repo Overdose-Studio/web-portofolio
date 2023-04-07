@@ -8,8 +8,7 @@ import IUser from "../../documents/masters/user-document";
 
 // Import enums
 import { ErrorAPI, StatusAPI } from "../../enums/api-enum";
-import UserRole from "../../enums/user-role-enum";
-import UserAction from "../../enums/user-action-enum";
+import { UserAction, UserRole } from "../../enums/user-enum";
 
 // Import interfaces
 import IUserLog from "../../documents/transactions/user-log-document";

@@ -3,7 +3,7 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 
 // Import enums
 import { ErrorAPI, StatusAPI } from '../database/enums/api-enum';
-import UserRole from '../database/enums/user-role-enum';
+import { UserRole } from '../database/enums/user-enum';
 
 // Create auth middleware to check if user is authenticated
 const roleMiddleware = (...role: UserRole[]) => async (request: FastifyRequest, reply: FastifyReply) => {
