@@ -3,8 +3,9 @@ import dotenv from 'dotenv';
 import { FastifyRequest, FastifyReply } from 'fastify';
 
 // Import enums
-import StatusAPI from '../database/enums/status-api-enum';
 import ErrorAPI from '../database/enums/error-api-enum';
+import StatusAPI from '../database/enums/status-api-enum';
+import UserAction from '../database/enums/user-action-enum';
 
 // Import interfaces
 import { ILoginRequest } from '../interfaces/auth-payload-interface';
@@ -50,6 +51,12 @@ export const login = async (request: FastifyRequest, reply: FastifyReply) => {
 
     // Create refresh token
     const refreshToken = await user.generateRefreshToken(reply);
+
+    // Create user log
+    await user.createLog(reply, {
+        action: UserAction.LOGIN,
+        description: 'User logged in successfully' 
+    });
 
     // Set cookie for refresh token
     reply.setCookie('refresh_token', refreshToken, {
