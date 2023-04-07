@@ -3,8 +3,7 @@ import dotenv from 'dotenv';
 import { FastifyRequest, FastifyReply } from 'fastify';
 
 // Import enums
-import ErrorAPI from '../database/enums/error-api-enum';
-import StatusAPI from '../database/enums/status-api-enum';
+import { ErrorAPI, StatusAPI } from '../database/enums/api-enum';
 import UserAction from '../database/enums/user-action-enum';
 
 // Import interfaces

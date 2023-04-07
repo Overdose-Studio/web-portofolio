@@ -2,8 +2,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 
 // Import enums
-import StatusAPI from '../database/enums/status-api-enum';
-import ErrorAPI from '../database/enums/error-api-enum';
+import { ErrorAPI, StatusAPI } from '../database/enums/api-enum';
 
 // Import models
 import User from '../database/models/masters/user-model';

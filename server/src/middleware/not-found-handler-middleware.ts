@@ -8,8 +8,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 
 // Import models
-import ErrorAPI from '../database/enums/error-api-enum';
-import StatusAPI from '../database/enums/status-api-enum';
+import { ErrorAPI, StatusAPI } from '../database/enums/api-enum';
 
 // Create 404 handler middleware
 const notFoundHandler = (request: FastifyRequest, reply: FastifyReply) => {
