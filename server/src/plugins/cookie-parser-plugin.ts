@@ -11,7 +11,6 @@ dotenv.config();
 const cookieENV = {
     domain: process.env.COOKIE_DOMAIN ?? 'localhost',
     httpOnly: process.env.COOKIE_HTTP_ONLY === 'true',
-    maxAge: parseInt(process.env.COOKIE_MAX_AGE ?? '86400000'),
     secure: process.env.COOKIE_SECURE === 'true',
     secret: process.env.COOKIE_SECRET ?? 'secret',
     signed: process.env.COOKIE_SIGNED === 'true',
@@ -28,7 +27,6 @@ const cookieParser: FastifyPluginAsync = plugin(async (fastify: FastifyInstance)
             httpOnly: cookieENV.httpOnly,                       //------ Set cookie to only valid for HTTP
             sameSite: 'strict',                                 //------ Set cookie to only valid for same site
             domain: cookieENV.domain,                           //------ Set cookie domain to localhost when production
-            maxAge: cookieENV.maxAge,                           //------ Set cookie max age to default 1 day
         }
     });
 });
