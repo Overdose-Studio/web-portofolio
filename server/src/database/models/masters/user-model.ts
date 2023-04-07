@@ -7,10 +7,17 @@ import { Schema, model } from "mongoose";
 import IUser from "../../documents/masters/user-document";
 
 // Import enums
+import ErrorAPI from "../../enums/error-api-enum";
+import StatusAPI from "../../enums/status-api-enum";
 import UserRole from "../../enums/user-role-enum";
+import UserAction from "../../enums/user-action-enum";
 
 // Import interfaces
+import IUserLog from "../../documents/transactions/user-log-document";
 import TokenPayloadJWT from "../../../interfaces/jwt-payload-interface";
+
+// Import models
+import UserLog from "../transactions/user-log-model";
 
 // Import plugins
 import softDelete from "../../../plugins/soft-delete-plugin";
@@ -71,6 +78,31 @@ userSchema.methods.generateRefreshToken = async function (reply: FastifyReply): 
     const payload = this.getPayloadJWT();
     return reply.jwtSign(payload, { expiresIn: '7d' });
 };
+
+// --- Create log
+userSchema.methods.createLog = async function (reply: FastifyReply, data: { action: UserAction, description: string }): Promise<IUserLog> {
+    try {
+        // Validate user 
+        if (!this._id) throw new Error(`User not found`);
+
+        // Create user log
+        const userLog = await UserLog.create({
+            user: this._id,
+            action: data.action,
+            description: data.description,
+        });
+
+        // Return user log
+        return userLog;
+    } catch (error: any) {
+        reply.status(500);
+        reply.error = {
+            status: StatusAPI.FAILED,
+            type: ErrorAPI.USER_LOG
+        };
+        throw new Error(`Failed to generate user log, please contact administrator`);
+    }
+}
 
 // Create user model
 const User = model<IUser>("User", userSchema);
