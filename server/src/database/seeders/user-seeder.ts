@@ -3,7 +3,7 @@ import bycrypt from "bcrypt";
 import faker from "faker/locale/id_ID";
 
 // Import enums
-import UserRole from "../enums/user-role-enum";
+import { UserRole } from "../enums/user-enum";
 
 // Import interfaces
 import Seeder from "../../interfaces/seeder-interface";
