@@ -18,6 +18,7 @@ import csrfSecurity from './plugins/csrf-security-plugin';
 import errorAttribute from './plugins/error-attribute-plugin';
 import formBodyParser from './plugins/form-body-parser-plugin';
 import jsonResponse from './plugins/json-response-plugin';
+import jwtAuthentication from './plugins/jwt-authentication-plugin';
 
 // Create fastify app
 const app = Fastify({ logger: logger });
@@ -28,6 +29,7 @@ app.register(cookieParser);                                 // Parse and set coo
 app.register(formBodyParser);                               // Parse and set form data
 app.register(corsSecurity);                                 // Enable CORS security
 app.register(csrfSecurity);                                 // Enable CSRF security
+app.register(jwtAuthentication);                            // Enable JWT authentication
 app.register(router);                                       // Register main router
 app.register(jsonResponse);                                 // Register JSON response plugin (decorate reply object)
 app.register(errorAttribute);                               // Register error attribute plugin (decorate reply object)
