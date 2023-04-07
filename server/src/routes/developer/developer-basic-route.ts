@@ -1,22 +1,26 @@
 // Import dependencies
 import { FastifyInstance } from 'fastify';
 
-// Import models
-import { StatusAPI } from '../../database/enums/api-enum';
+// Import controllers
+import {
+    getAllDevelopers,
+    getDeveloper,
+    createDeveloper,
+    updateDeveloper,
+    deleteDeveloper
+} from '../../controllers/developer/developer-basic-controller';
 
 // Import validation schemas
+import { idParamsSchema } from '../../validations/params-validation';
 import { developerBasicSchema } from '../../validations/developer-payload-validation';
 
 // Create router
 const developerBasicRouter = async (app: FastifyInstance) => {
-    app.post('/', { schema: developerBasicSchema }, async (request, reply) => {
-        reply.json({
-            status: StatusAPI.SUCCESS,
-            status_code: 200,
-            message: 'Hello World!',
-            data: request.body
-        })
-    });
+    app.get('/', getAllDevelopers);
+    app.get('/:id', { schema: idParamsSchema }, getDeveloper);
+    app.post('/', { schema: developerBasicSchema }, createDeveloper);
+    app.put('/:id', { schema: { ...idParamsSchema, ...developerBasicSchema } }, updateDeveloper);
+    app.delete('/:id', { schema: idParamsSchema }, deleteDeveloper);
 };
 
 // Export main router
