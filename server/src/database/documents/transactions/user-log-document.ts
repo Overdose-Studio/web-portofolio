@@ -4,13 +4,15 @@ import { Document, ObjectId } from "mongoose";
 // Import enums
 import UserAction from "../../enums/user-action-enum";
 
+// Import interfaces
+import TimestampDocument from "../../../interfaces/timestamp-document-interface";
+
 // Create a user log document
-interface IUserLog extends Document {
+interface IUserLog extends Document, TimestampDocument {
     // Properties
     user: ObjectId;
     action: UserAction;
     description: string;
-    created_at: Date;
 }
 
 // Export user log document
