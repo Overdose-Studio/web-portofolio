@@ -5,7 +5,7 @@ import { Schema, model } from "mongoose";
 import IUserLog from "../../documents/transactions/user-log-document";
 
 // Import enums
-import UserAction from "../../enums/user-action-enum";
+import { UserAction } from "../../enums/user-enum";
 
 // Create user log schema
 const userLogSchema = new Schema<IUserLog>({
