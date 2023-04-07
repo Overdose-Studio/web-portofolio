@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { FastifyInstance } from 'fastify';
 
 // Import routes
+import authRouter from './auth-route';
 import csrfRouter from './csrf-route';
 import testRoute from './optional/test-route';
 
@@ -15,6 +16,7 @@ const production = process.env.NODE_ENV === 'production';
 // Create main router
 const router = async (app: FastifyInstance) => {
     // Register other routes
+    app.register(authRouter);                                           // Auth route
     app.register(csrfRouter);                                           // CSRF route
     if (!production) app.register(testRoute, { prefix: '/test' });      // Test route (only in development)
 };
