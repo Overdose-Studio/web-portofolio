@@ -6,13 +6,13 @@ import IDeveloperPhoto from "../../documents/masters/developer-photo-document";
 
 // Create a developer photo schema
 const developerPhotoSchema = new Schema<IDeveloperPhoto>({
-    profile: {
+    avatar: {
         type: String,
-        default: undefined
+        default: null
     },
     cover: {
         type: String,
-        default: undefined
+        default: null
     }
 }, {
     collection: "developer_photos",
