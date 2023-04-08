@@ -19,6 +19,7 @@ import errorAttribute from './plugins/error-attribute-plugin';
 import formBodyParser from './plugins/form-body-parser-plugin';
 import jsonResponse from './plugins/json-response-plugin';
 import jwtAuthentication from './plugins/jwt-authentication-plugin';
+import multipartParser from './plugins/multipart-parser-plugin';
 
 // Create fastify app
 const app = Fastify({ logger: logger });
@@ -27,6 +28,7 @@ const app = Fastify({ logger: logger });
 app.register(helmet);                                       // Set security HTTP headers
 app.register(cookieParser);                                 // Parse and set cookies
 app.register(formBodyParser);                               // Parse and set form data
+app.register(multipartParser);                              // Parse and set multipart data
 app.register(corsSecurity);                                 // Enable CORS security
 app.register(csrfSecurity);                                 // Enable CSRF security
 app.register(jwtAuthentication);                            // Enable JWT authentication
