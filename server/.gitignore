@@ -17,8 +17,8 @@
 /logs/*.txt
 
 # uploaded files (ignore all files in the uploads folder except .gitkeep)
-/uploads/*
-!/uploads/.gitkeep
+/public/*
+!/public/.gitkeep
 
 # misc
 .DS_Store
