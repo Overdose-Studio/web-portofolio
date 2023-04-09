@@ -9,7 +9,6 @@ dotenv.config();
 
 // Get environment variables
 const multipartENV = {
-    addToBody: process.env.MULTIPART_ADD_TO_BODY === 'true',
     headerPairs: parseInt(process.env.MULTIPART_HEADER_PAIRS_LIMIT ?? '2000'),
     fieldNameSize: parseInt(process.env.MULTIPART_FIELD_NAME_SIZE_LIMIT ?? '100'),
     fieldSize: parseInt(process.env.MULTIPART_FIELD_SIZE_LIMIT ?? '1000000'),
@@ -22,7 +21,6 @@ const multipartENV = {
 const multipartParser: FastifyPluginAsync = plugin(async (fastify: FastifyInstance) => {
     // Register the plugin on the fastify instance
     fastify.register(multipart, {                                   // Parse and set multipart data
-        addToBody: multipartENV.addToBody,                          //--- Add multipart data to body
         sharedSchemaId: 'multipartFile',                            //--- Set shared schema id
         limits: {                                                   //--- Set limits
             fieldNameSize: multipartENV.fieldNameSize,              //------ Set field name size limit
