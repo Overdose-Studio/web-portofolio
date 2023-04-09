@@ -21,6 +21,7 @@ const multipartENV = {
 const multipartParser: FastifyPluginAsync = plugin(async (fastify: FastifyInstance) => {
     // Register the plugin on the fastify instance
     fastify.register(multipart, {                                   // Parse and set multipart data
+        attachFieldsToBody: true,                                   //--- Attach fields to body
         sharedSchemaId: 'multipartFile',                            //--- Set shared schema id
         limits: {                                                   //--- Set limits
             fieldNameSize: multipartENV.fieldNameSize,              //------ Set field name size limit
