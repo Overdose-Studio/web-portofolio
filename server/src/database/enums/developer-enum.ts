@@ -4,6 +4,12 @@ export enum DeveloperType {
     EXTERNAL = "external"                           // External developer (contractor)
 }
 
+// Create developer photo type enum
+export enum DeveloperPhotoType {
+    AVATAR = "avatar",                              // Avatar
+    COVER = "cover"                                 // Cover
+}
+
 // Create developer education level enum
 export enum DeveloperEducationLevel {
     JUNIOR_HIGH_SCHOOL = "junior_high_school",      // Junior high school

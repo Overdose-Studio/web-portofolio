@@ -10,6 +10,7 @@ import roleMiddleware from '../middleware/role-middleware';
 
 // Import routes
 import developerBasicRouter from './developer/developer-basic-route';
+import developerPhotoRouter from './developer/developer-photo-route';
 
 // Create router
 const developerRouter = async (app: FastifyInstance) => {
@@ -19,6 +20,7 @@ const developerRouter = async (app: FastifyInstance) => {
 
     // Register other routes
     app.register(developerBasicRouter, { prefix: '/basic' });
+    app.register(developerPhotoRouter, { prefix: '/photo' });
 };
 
 // Export main router

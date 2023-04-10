@@ -7,7 +7,7 @@ import TimestampDocument from "../../../interfaces/timestamp-document-interface"
 // Create a developer photo document
 interface IDeveloperPhoto extends Document, TimestampDocument {
     // Properties
-    profile: string;
+    avatar: string;
     cover: string;
 }
 
