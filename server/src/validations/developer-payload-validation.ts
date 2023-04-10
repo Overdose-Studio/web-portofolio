@@ -2,9 +2,9 @@
 import Joi from "joi";
 
 // Import enums
-import { DeveloperType } from "../database/enums/developer-enum";
+import { DeveloperType, DeveloperPhotoType } from "../database/enums/developer-enum";
 
-// Create developer schema
+// Create developer basic schema
 export const developerBasicSchema = {
     body: Joi.object({
         name: Joi
@@ -65,3 +65,54 @@ export const developerBasicSchema = {
     })
     .options({ abortEarly: false })
 };
+
+// Create developer photo schema
+export const developerPhotoSchema = (field: string) => {
+    return {
+        body: Joi.object({
+            [field]: Joi
+                .object()
+                .required()
+                .messages({
+                    'object.base': `${field} is invalid, please upload your ${field} again`,
+                    'object.empty': `${field} is empty, please upload your ${field}`,
+                    'any.required': `${field} is required, please upload your ${field}`,
+                }),
+        })
+        .required()
+        .messages({
+            'object.base': 'Invalid request body, please check your request body',
+            'object.unknown': 'Field is not allowed, remove this field from your request body',
+        })
+        .options({ abortEarly: false }),
+    };
+};
+
+// Create developer photo delete schema
+export const developerPhotoDeleteSchema = {
+    body: Joi.object({
+        types: Joi
+            .array()
+            .items(Joi
+                .string()
+                .valid(...Object.values(DeveloperPhotoType))
+                .messages({
+                    'string.empty': 'Type is empty, please enter your type',
+                    'any.only': `Type is invalid, please enter a valid type (${Object.values(DeveloperPhotoType).join(', ')})`,
+                })
+            )
+            .single()
+            .required()
+            .messages({
+                'array.base': 'Type is invalid, please enter a valid type',
+                'array.empty': 'Type is empty, please enter your type',
+                'any.required': 'Type is required, please enter your type',
+            })
+    })
+    .required()
+    .messages({
+        'object.base': 'Invalid request body, please check your request body',
+        'object.unknown': 'Field is not allowed, remove this field from your request body',
+    })
+    .options({ abortEarly: false })
+}
