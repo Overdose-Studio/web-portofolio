@@ -69,30 +69,7 @@ const uploadHandlerMiddleware = ({
     // Save files to temporary directory
     const files = await request.saveRequestFiles();
 
-    // Check MIME type is valid
-    const filesTypeInvalid: any = {};
-    if (mimeTypes.length > 0) {
-        // Create regex to check file type
-        const regex = new RegExp(`(${mimeTypes.join('|').replace('*', '.*')})$`, 'i');
-
-        // Check each file
-        for (const file of files) {
-            if (!regex.test(file.mimetype)) {
-                filesTypeInvalid[file.fieldname] = `File ${file.filename} is not a valid file type, must be (${mimeTypes.join(', ')})`;
-            }
-        }
-
-        // Send error response if any files are invalid
-        if (Object.keys(filesTypeInvalid).length > 0) {
-            reply.status(400);
-            reply.error = {
-                status: StatusAPI.FAILED,
-                type: ErrorAPI.VALIDATION,
-                data: filesTypeInvalid
-            }
-            throw new Error(`Validation failed, uploaded files must be (${mimeTypes.join(', ')})`);
-        }
-    }
+    // TODO: Check if fields optional or required
 
     // Check if files is more than max files
     const filesExceeded: any = {};
@@ -115,6 +92,33 @@ const uploadHandlerMiddleware = ({
             data: filesExceeded
         }
         throw new Error(`Validation failed, uploaded files must be less than or equal to (${maxFilesField})`);
+    }
+
+    // Check MIME type is valid
+    const filesTypeInvalid: any = {};
+    if (mimeTypes.length > 0) {
+        // Create regex to check file type
+        const regex = new RegExp(`(${mimeTypes.join('|').replace('*', '.*')})$`, 'i');
+
+        // Check each file
+        for (const file of files) {
+            if (!regex.test(file.mimetype)) {
+                filesTypeInvalid[file.fieldname] = 
+                    `File ${file.filename + (file.filename.length > 0 ? ' ' : '')}` + 
+                    `is not a valid file type, must be (${mimeTypes.join(', ')})`;
+            }
+        }
+
+        // Send error response if any files are invalid
+        if (Object.keys(filesTypeInvalid).length > 0) {
+            reply.status(400);
+            reply.error = {
+                status: StatusAPI.FAILED,
+                type: ErrorAPI.VALIDATION,
+                data: filesTypeInvalid
+            }
+            throw new Error(`Validation failed, uploaded files must be (${mimeTypes.join(', ')})`);
+        }
     }
 
     // Write file to upload directory

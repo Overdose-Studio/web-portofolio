@@ -78,7 +78,9 @@ const handleRequestFileTooLarge = (error: FastifyError): ICustomError => {
     Object.keys(part.fields).forEach((key) => {
         const field = part.fields[key];
         if (field.file.truncated) {
-            customError.data[field.fieldname] = `File ${field.filename} exceeds the ${bytesToText(sizeLimit)} limit`;
+            customError.data[field.fieldname] = 
+                `File ${field.filename + (field.filename.length > 0 ? ' ' : '')}` + 
+                `exceeds the ${bytesToText(sizeLimit)} limit`;
         }
     });
 
