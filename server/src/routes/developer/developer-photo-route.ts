@@ -11,6 +11,10 @@ import {
 // Import middleware
 import uploadHandlerMiddleware from '../../middleware/upload-handler-middleware';
 
+// Import schema validation
+import { developerPhotoSchema, developerPhotoDeleteSchema } from '../../validations/developer-payload-validation';
+import { idParamsSchema } from '../../validations/params-validation';
+
 // Create router
 const developerPhotoRouter = async (app: FastifyInstance) => {
     // Upload developer avatar
@@ -19,7 +23,8 @@ const developerPhotoRouter = async (app: FastifyInstance) => {
             fields: ['avatar'],
             directory: 'developer/avatar',
             mimeTypes: ['image/png', 'image/jpeg', 'image/jpg']
-        })
+        }),
+        schema: {...developerPhotoSchema('avatar'), ...idParamsSchema}
     }, uploadAvatar);
 
     // Upload developer cover
@@ -28,11 +33,14 @@ const developerPhotoRouter = async (app: FastifyInstance) => {
             fields: ['cover'],
             directory: 'developer/cover',
             mimeTypes: ['image/png', 'image/jpeg', 'image/jpg']
-        })
+        }),
+        schema: {...developerPhotoSchema('cover'), ...idParamsSchema}
     }, uploadCover);
 
     // Delete developer photo
-    app.delete('/:id/delete', deleteDeveloperPhoto);
+    app.delete('/:id/delete', {
+        schema: {...developerPhotoDeleteSchema, ...idParamsSchema}
+    },deleteDeveloperPhoto);
 };
 
 // Export main router
