@@ -1,7 +1,11 @@
 // Import dependencies
 import dotenv from 'dotenv';
 import fs from 'fs';
+import { SavedMultipartFile } from '@fastify/multipart';
 import { FastifyRequest, FastifyReply } from 'fastify';
+
+// Import interfaces
+import { IUploadHandler } from '../interfaces/upload-interface';
 
 // Import models
 import { ErrorAPI, StatusAPI } from '../database/enums/api-enum';
@@ -13,7 +17,12 @@ dotenv.config();
 const uploadDirectory = process.env.MULTIPART_UPLOAD_DIR ?? 'public';
 
 // Create multipart handler middleware
-const uploadHandlerMiddleware = (directory: string = '', mimeTypes: string[] = []) => async (request: FastifyRequest, reply: FastifyReply) => {
+const uploadHandlerMiddleware = ({
+    fields,
+    maxFilesField = 1,
+    directory = '',
+    mimeTypes = []
+}: IUploadHandler) => async (request: FastifyRequest, reply: FastifyReply) => {
     // Check if request is multipart
     if (!request.isMultipart()) {
         // Send error response
@@ -85,21 +94,85 @@ const uploadHandlerMiddleware = (directory: string = '', mimeTypes: string[] = [
         }
     }
 
+    // Check if files is more than max files
+    const filesExceeded: any = {};
+    for (const file of files) {
+        // Check if file is not in fields
+        if(!fields.includes(file.fieldname)) continue;
+
+        // Check if file is more than max files
+        if (files.filter((f: SavedMultipartFile) => f.fieldname === file.fieldname).length > maxFilesField) {
+            filesExceeded[file.fieldname] = `Uploaded files is more than max files (${maxFilesField})`;
+        }
+    }
+
+    // Send error response if any files are exceeded
+    if (Object.keys(filesExceeded).length > 0) {
+        reply.status(400);
+        reply.error = {
+            status: StatusAPI.FAILED,
+            type: ErrorAPI.VALIDATION,
+            data: filesExceeded
+        }
+        throw new Error(`Validation failed, uploaded files must be less than or equal to (${maxFilesField})`);
+    }
+
     // Write file to upload directory
     for (const file of files) {
-        console.log(file);
-
-        // Create file path
-        const filePath = `${path}/${Date.now()}-${file.filename}`;
+        // Check if file is not in fields
+        if(!fields.includes(file.fieldname)) {
+            (request.body as any)[file.fieldname] = undefined;
+            continue;
+        }
 
         // Move file from temporary directory to upload directory
-        fs.writeFileSync(filePath, await file.toBuffer());
+        const filePath = await writeFile(path, file);
 
-        // Add details to request body
-        request.body = request.body ?? {};
-        (request.body as any)[file.fieldname] = filePath;
+        // Add path and signed to request body
+        addPathAndSigned(request, file, filePath);
     }
 };
+
+// Create function to write file to upload directory
+const writeFile = async (directory: string, file: SavedMultipartFile) => {
+    // Create path
+    const filePath = `${directory}/${Date.now()}-${file.filename}`;
+
+    // Write file to upload directory
+    fs.writeFileSync(filePath, await file.toBuffer());
+
+    // Return file path
+    return filePath;
+}
+
+// Create function to add path and signed to request body
+const addPathAndSigned = (request: FastifyRequest, file: SavedMultipartFile, filePath: string) => {
+    // Check if request body is null
+    request.body = request.body ?? {};
+
+    // Create details object
+    const details = (request.body as Record<string, any>)[file.fieldname];
+    const fieldname = file.fieldname;
+
+    if (Array.isArray(details)) {
+        // Find the index of the file
+        const index = details.findIndex((detail: any) => detail.filename === file.filename && !detail.signed);
+
+        // Check if index is found
+        if (index !== -1) {
+            const { file, fields, _buf, toBuffer, ...rest } = details[index];
+            // Update the details object with new properties
+            details[index] = { ...rest, path: filePath, signed: true };
+        }
+
+        // Set the details object to request body
+        (request.body as any)[fieldname] = details;
+    } else if (details && typeof details === 'object' && !details.path) {
+        const { file, fields, _buf, toBuffer, ...rest } = details;
+        // Update the details object with new properties
+        (request.body as any)[fieldname] = { ...rest, path: filePath, signed: true };
+    }
+}
 
 // Export multipart handler middleware
 export default uploadHandlerMiddleware;
