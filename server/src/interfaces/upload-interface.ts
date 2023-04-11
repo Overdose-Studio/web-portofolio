@@ -17,11 +17,12 @@ export interface IUploadFiles {
 
 // Create upload handler interface
 export interface IUploadHandler {
-    fields: string[];                // Fields to upload
-    maxFilesField?: number;          // Max files per field
-    directory?: string;              // Upload directory
-    mimeTypes?: string[];            // Mime types
-}
+    name: string;               // Field name
+    directory?: string;         // Upload directory
+    required?: boolean;         // Is required
+    maxFiles?: number;          // Max files per field
+    mimeTypes?: string[];       // Mime types
+};
 
 // Create file body interface
 export interface IFileBody extends SavedMultipartFile {
