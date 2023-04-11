@@ -9,7 +9,7 @@ import dotenv from 'dotenv';
 import { FastifyRequest, FastifyReply, FastifyError } from 'fastify';
 
 // Import interfaces
-import { ICustomError } from '../interfaces/custom-error-interface';
+import { ICustomError } from '../interfaces/library/error-library-interface';
 
 // Import models
 import { StatusAPI } from '../database/enums/api-enum';

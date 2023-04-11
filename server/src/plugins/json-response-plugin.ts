@@ -3,12 +3,12 @@ import plugin from 'fastify-plugin';
 import { FastifyInstance, FastifyReply, FastifyPluginAsync } from 'fastify';
 
 // Import interfaces
-import JSON_Standard from '../interfaces/json-standard-interface';
+import StandardJSON from '../interfaces/library/json-standard-library-interface';
 
 // Create JSON response plugin
 const jsonResponse: FastifyPluginAsync = plugin(async (fastify: FastifyInstance) => {
     // Decorate the fastify instance with a custom function
-    fastify.decorateReply('json', async function (this: FastifyReply, params: JSON_Standard) {
+    fastify.decorateReply('json', async function (this: FastifyReply, params: StandardJSON) {
         // Get status response
         const { status, ...rest } = params;
 

@@ -5,7 +5,7 @@ import { SavedMultipartFile } from '@fastify/multipart';
 import { FastifyRequest, FastifyReply } from 'fastify';
 
 // Import interfaces
-import { IUploadHandler } from '../interfaces/upload-interface';
+import { IUploadHandler } from '../interfaces/library/upload-library-interface';
 
 // Import models
 import { ErrorAPI, StatusAPI } from '../database/enums/api-enum';
