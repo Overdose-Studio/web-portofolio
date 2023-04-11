@@ -12,7 +12,7 @@ import { UserAction, UserRole } from "../../enums/user-enum";
 
 // Import interfaces
 import IUserLog from "../../documents/transactions/user-log-document";
-import TokenPayloadJWT from "../../../interfaces/jwt-payload-interface";
+import { ITokenPayloadJWT } from "../../../interfaces/payload/jwt-payload-interface";
 
 // Import models
 import UserLog from "../transactions/user-log-model";
@@ -57,7 +57,7 @@ userSchema.methods.comparePassword = async function (password: string): Promise<
 };
 
 // --- Get JWT payload
-userSchema.methods.getPayloadJWT = function (): TokenPayloadJWT {
+userSchema.methods.getPayloadJWT = function (): ITokenPayloadJWT {
     return {
         _id: this._id,
         name: this.name,

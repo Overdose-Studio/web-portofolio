@@ -5,7 +5,7 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import { ErrorAPI, StatusAPI } from '../database/enums/api-enum';
 
 // Import interfaces
-import { IPaginationQuery } from '../interfaces/pagination-interface';
+import { IPaginationQuery } from '../interfaces/payload/pagination-payload-interface';
 
 // Create pagination handler middleware
 const paginationHandlerMiddleware = async (request: FastifyRequest, reply: FastifyReply) => {

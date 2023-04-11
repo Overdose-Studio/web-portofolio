@@ -9,7 +9,7 @@ import { UserAction } from "../../enums/user-enum";
 import IUserLog from "../transactions/user-log-document";
 import SoftDeleteDocument from "../../../interfaces/soft-delete-document-interface";
 import TimestampDocument from "../../../interfaces/timestamp-document-interface";
-import TokenPayloadJWT from "../../../interfaces/jwt-payload-interface";
+import { ITokenPayloadJWT } from "../../../interfaces/payload/jwt-payload-interface";
 
 // Create a user document
 interface IUser extends Document, TimestampDocument, SoftDeleteDocument {
@@ -21,7 +21,7 @@ interface IUser extends Document, TimestampDocument, SoftDeleteDocument {
 
     // Methods
     comparePassword(password: string): Promise<boolean>;
-    getPayloadJWT(): TokenPayloadJWT;
+    getPayloadJWT(): ITokenPayloadJWT;
     generateAccessToken(reply: FastifyReply): Promise<string>;
     generateRefreshToken(reply: FastifyReply): Promise<string>;
     createLog(reply: FastifyReply, data: { action: UserAction, description: string }): Promise<IUserLog>;

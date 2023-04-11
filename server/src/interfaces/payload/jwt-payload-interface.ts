@@ -1,9 +1,6 @@
 // Create interface for JWT payload
-interface TokenPayloadJWT {
+export interface ITokenPayloadJWT {
     _id: string;
     name: string;
     role: string;
 }
-
-// Export interface
-export default TokenPayloadJWT;
