@@ -17,12 +17,7 @@ dotenv.config();
 const uploadDirectory = process.env.MULTIPART_UPLOAD_DIR ?? 'public';
 
 // Create multipart handler middleware
-const uploadHandlerMiddleware = ({
-    fields,
-    maxFilesField = 1,
-    directory = '',
-    mimeTypes = []
-}: IUploadHandler) => async (request: FastifyRequest, reply: FastifyReply) => {
+const uploadHandlerMiddleware = (...params: IUploadHandler[]) => async (request: FastifyRequest, reply: FastifyReply) => {
     // Check if request is multipart
     if (!request.isMultipart()) {
         // Send error response
@@ -35,54 +30,122 @@ const uploadHandlerMiddleware = ({
         throw new Error('Validation failed, request must be form-data multipart');
     }
 
+    // Save files to temporary directory
+    const files = await request.saveRequestFiles();
+
     // Check directory is valid using regex (allow recursive directory)
+    await validateDirectory(params, reply);
+
+    // Check file field is required
+    await validateRequiredFields(params, files, reply);
+
+    // Check max files parameter are valid
+    await validateMaxFiles(params, files, reply);
+
+    // Check mime types parameter are valid 
+    await validateMimeTypes(params, files, reply);
+
+    // Write file to upload directory
+    await writeUploadedFiles(params, files, request);
+};
+
+// Create function to validate directory parameter using regex
+const validateDirectory = async (params: IUploadHandler[], reply: FastifyReply) => {
+    // Create regex to check directory (allow recursive directory)
     const regex = /^[a-zA-Z0-9-_]+(\/[a-zA-Z0-9-_]+)*$/;
-    if (!regex.test(directory)) {
+
+    // Remove './public' from directory
+    params.forEach((param) => {
+        param.directory = param.directory?.replace(`./${uploadDirectory}/`, '') ?? param.directory;
+    })
+
+    // Check if directory is valid
+    const invalidDirectory = params.filter((param: IUploadHandler) => !regex.test(param.directory ?? ''));
+    if (invalidDirectory.length > 0) {
+        // Create error data
+        const errorData = invalidDirectory.map((param: IUploadHandler) => ({
+            [param.name]: `Directory "${param.directory}" must be alphanumeric, dash or underscore`
+        }))
+
         // Send error response
         reply.status(500);
         reply.error = {
             status: StatusAPI.ERROR,
             type: ErrorAPI.UPLOAD,
-            data: { directory: 'Directory must be alphanumeric, dash or underscore' }
+            data: errorData.reduce((acc, curr) => ({ ...acc, ...curr }), {})
         }
-        throw new Error('Validation failed, directory must be alphanumeric, dash or underscore');
+        throw new Error('Params invalid, directory must be alphanumeric, dash or underscore');
     }
 
-    // Check if directory exists
-    const path = `./${uploadDirectory}/${directory}`;
-    if (!fs.existsSync(path)) fs.mkdirSync(path, { recursive: true });
+    // Create directory if not exists
+    params.forEach((param) => {
+        // Check if directory exists
+        const path = `./${uploadDirectory}/${param.directory}`;
+        if (!fs.existsSync(path)) fs.mkdirSync(path, { recursive: true });
+
+        // Set directory to param
+        param.directory = path;
+    });
+};
+
+// Create function to validate required fields
+const validateRequiredFields = async (params: IUploadHandler[], files: SavedMultipartFile[], reply: FastifyReply) => {
+    // Filter params to get only required fields
+    const requiredFields = params.filter((param) => param.required);
+
+    // Check required field on files
+    const invalidRequiredFiles: { [key: string]: string } = {};
+    requiredFields.forEach((param) => {
+        if (!files.some((file) => file.fieldname === param.name && file.filename !== '')) {
+            invalidRequiredFiles[param.name] = `Field "${param.name}" is required, please upload your file`;
+        }
+    });
+
+    // Send error response if any required field is not found
+    if (Object.keys(invalidRequiredFiles).length > 0) {
+        reply.status(400);
+        reply.error = {
+            status: StatusAPI.FAILED,
+            type: ErrorAPI.VALIDATION,
+            data: invalidRequiredFiles
+        }
+        throw new Error('Validation failed, required fields are not found');
+    }
+};
+
+// Create function to validate max files parameter
+const validateMaxFiles = async (params: IUploadHandler[], files: SavedMultipartFile[], reply: FastifyReply) => {
+    // Check if max files is valid
+    const invalidMaxFiles: { [key: string]: string } = {};
+    params.forEach((param) => {
+        if (param.maxFiles && param.maxFiles < 1 || param.maxFiles === 0) {
+            invalidMaxFiles[param.name] = `Max files "${param.maxFiles}" must be greater than or equal to 1`;
+        }
+    })
+
+    // Send error response if any max files is invalid
+    if (Object.keys(invalidMaxFiles).length > 0) {
+        reply.status(500);
+        reply.error = {
+            status: StatusAPI.ERROR,
+            type: ErrorAPI.UPLOAD,
+            data: invalidMaxFiles
+        }
+        throw new Error('Params invalid, max files must be greater than or equal to 1');
+    }
+
+    // Check files is more than max files
+    const filesExceeded: { [key: string]: string } = {};
+    params.forEach((field) => {
+        // Filter files to get only files with same field name
+        const uploadedFiles = files.filter((file: SavedMultipartFile) => file.fieldname === field.name);
+
+        // Check if files is more than max files
+        if (field.maxFiles && uploadedFiles.length > field.maxFiles) {
+            filesExceeded[field.name] = `Uploaded files is more than max files (${field.maxFiles})`;
+        }
+    });
     
-    // Check mime types are valid 
-    for (const mimeType of mimeTypes) {
-        if (!mimeType.includes('/')) {
-            // Send error response
-            reply.status(500);
-            reply.error = {
-                status: StatusAPI.ERROR,
-                type: ErrorAPI.UPLOAD,
-                data: { mimeTypes: `Mime types "${mimeType}" must be in the format of "type/subtype"` }
-            }
-            throw new Error(`Validation failed, mime types "${mimeType}" must be in the format of "type/subtype"`);
-        }
-    }
-
-    // Save files to temporary directory
-    const files = await request.saveRequestFiles();
-
-    // TODO: Check if fields optional or required
-
-    // Check if files is more than max files
-    const filesExceeded: any = {};
-    for (const file of files) {
-        // Check if file is not in fields
-        if(!fields.includes(file.fieldname)) continue;
-
-        // Check if file is more than max files
-        if (files.filter((f: SavedMultipartFile) => f.fieldname === file.fieldname).length > maxFilesField) {
-            filesExceeded[file.fieldname] = `Uploaded files is more than max files (${maxFilesField})`;
-        }
-    }
-
     // Send error response if any files are exceeded
     if (Object.keys(filesExceeded).length > 0) {
         reply.status(400);
@@ -91,49 +154,74 @@ const uploadHandlerMiddleware = ({
             type: ErrorAPI.VALIDATION,
             data: filesExceeded
         }
-        throw new Error(`Validation failed, uploaded files must be less than or equal to (${maxFilesField})`);
+        throw new Error('Validation failed, uploaded files must be less than or equal to max files');
+    }
+};
+
+// Create function to validate mime types using regex
+const validateMimeTypes = async (params: IUploadHandler[], files: SavedMultipartFile[], reply: FastifyReply) => {
+    // Check if mime types is valid
+    const invalidMimeTypes: { [key: string]: string } = {};
+    params.forEach((param) => {
+        // Check if mime types is valid
+        const invalid = param.mimeTypes?.filter((mimeType: string) => !mimeType.includes('/'));
+        if (invalid && invalid.length > 0) {
+            invalidMimeTypes[param.name] = `Mime types "${invalid.join(', ')}" must be in the format of type/subtype`;
+        }
+    })
+
+    // Send error response if any mime types is invalid
+    if (Object.keys(invalidMimeTypes).length > 0) {
+        reply.status(500);
+        reply.error = {
+            status: StatusAPI.ERROR,
+            type: ErrorAPI.UPLOAD,
+            data: invalidMimeTypes
+        }
+        throw new Error('Params invalid, mime types must be in the format of type/subtype');
     }
 
-    // Check MIME type is valid
-    const filesTypeInvalid: any = {};
-    if (mimeTypes.length > 0) {
-        // Create regex to check file type
-        const regex = new RegExp(`(${mimeTypes.join('|').replace('*', '.*')})$`, 'i');
+    // Check file mime types
+    const invalidFiles: { [key: string]: string } = {};
+    files.forEach((file) => {
+        // Check if mime types is valid
+        const param = params.find((param) => param.name === file.fieldname);
+        if (param && param.mimeTypes) {
+            // Create regex to check file type
+            const regex = new RegExp(`(${param.mimeTypes.join('|').replace('*', '.*')})$`, 'i');
 
-        // Check each file
-        for (const file of files) {
+            // Check if file type is valid
             if (!regex.test(file.mimetype)) {
-                filesTypeInvalid[file.fieldname] = 
-                    `File ${file.filename + (file.filename.length > 0 ? ' ' : '')}` + 
-                    `is not a valid file type, must be (${mimeTypes.join(', ')})`;
+                invalidFiles[file.fieldname] =
+                    `File ${file.filename + (file.filename.length > 0 ? ' ' : '')}` +
+                    `is not a valid file type, must be (${param.mimeTypes.join(', ')})`;
             }
         }
+    })
 
-        // Send error response if any files are invalid
-        if (Object.keys(filesTypeInvalid).length > 0) {
-            reply.status(400);
-            reply.error = {
-                status: StatusAPI.FAILED,
-                type: ErrorAPI.VALIDATION,
-                data: filesTypeInvalid
-            }
-            throw new Error(`Validation failed, uploaded files must be (${mimeTypes.join(', ')})`);
+    // Send error response if any files is invalid
+    if (Object.keys(invalidFiles).length > 0) {
+        reply.status(400);
+        reply.error = {
+            status: StatusAPI.FAILED,
+            type: ErrorAPI.VALIDATION,
+            data: invalidFiles
         }
+        throw new Error(`Validation failed, uploaded files has invalid file types`);
     }
+};
 
-    // Write file to upload directory
-    for (const file of files) {
-        // Check if file is not in fields
-        if(!fields.includes(file.fieldname)) {
-            (request.body as any)[file.fieldname] = undefined;
-            continue;
-        }
+// Create function to write files to upload directory
+const writeUploadedFiles = async (params: IUploadHandler[], files: SavedMultipartFile[], request: FastifyRequest) => {
+    for (const param of params) {
+        // Filter files to get only files with same field name
+        const uploadedFiles = files.filter((file: SavedMultipartFile) => file.fieldname === param.name);
 
-        // Move file from temporary directory to upload directory
-        const filePath = await writeFile(path, file);
-
+        // Write files to upload directory
+        const filePaths = await Promise.all(uploadedFiles.map(async (file) => await writeFile(param.directory ?? '', file)));
+    
         // Add path and signed to request body
-        addPathAndSigned(request, file, filePath);
+        uploadedFiles.forEach((file, index) => addPathAndSigned(request, file, filePaths[index]));
     }
 };
 
@@ -147,7 +235,7 @@ const writeFile = async (directory: string, file: SavedMultipartFile) => {
 
     // Return file path
     return filePath;
-}
+};
 
 // Create function to add path and signed to request body
 const addPathAndSigned = (request: FastifyRequest, file: SavedMultipartFile, filePath: string) => {
@@ -176,7 +264,7 @@ const addPathAndSigned = (request: FastifyRequest, file: SavedMultipartFile, fil
         // Update the details object with new properties
         (request.body as any)[fieldname] = { ...rest, path: filePath, signed: true };
     }
-}
+};
 
 // Export multipart handler middleware
 export default uploadHandlerMiddleware;
