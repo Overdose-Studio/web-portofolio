@@ -5,7 +5,7 @@ import { Document } from "mongoose";
 import { DeveloperContactType } from "../../enums/developer-enum";
 
 // Import interfaces
-import TimestampDocument from "../../../interfaces/timestamp-document-interface";
+import { TimestampDocument } from "../../../interfaces/database/document-database-interface";
 
 // Create a developer contact document
 interface IDeveloperContact extends Document, TimestampDocument {

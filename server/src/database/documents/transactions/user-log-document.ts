@@ -5,7 +5,7 @@ import { Document, ObjectId } from "mongoose";
 import { UserAction } from "../../enums/user-enum";
 
 // Import interfaces
-import TimestampDocument from "../../../interfaces/timestamp-document-interface";
+import { TimestampDocument } from "../../../interfaces/database/document-database-interface";
 
 // Create a user log document
 interface IUserLog extends Document, TimestampDocument {

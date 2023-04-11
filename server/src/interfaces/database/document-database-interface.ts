@@ -1,5 +1,5 @@
 // Create softDelete document interface
-interface SoftDeleteDocument {
+export interface SoftDeleteDocument {
     // Properties
     deleted_at: Date;
 
@@ -9,5 +9,8 @@ interface SoftDeleteDocument {
     delete(): Promise<this>;
 }
 
-// Export softDelete document interface
-export default SoftDeleteDocument;
+// Create timestamp document interface
+export interface TimestampDocument {
+    created_at: Date;
+    updated_at: Date;
+}

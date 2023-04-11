@@ -7,8 +7,7 @@ import { DeveloperType, DeveloperPhotoType } from "../../enums/developer-enum";
 
 // Import interfaces
 import IDeveloperPhoto from "../masters/developer-photo-document";
-import TimestampDocument from "../../../interfaces/timestamp-document-interface";
-import SoftDeleteDocument from "../../../interfaces/soft-delete-document-interface";
+import { SoftDeleteDocument, TimestampDocument } from "../../../interfaces/database/document-database-interface";
 
 // Create a developer document
 interface IDeveloper extends Document, TimestampDocument, SoftDeleteDocument {

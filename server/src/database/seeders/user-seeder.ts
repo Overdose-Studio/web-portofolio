@@ -6,7 +6,7 @@ import faker from "faker/locale/id_ID";
 import { UserRole } from "../enums/user-enum";
 
 // Import interfaces
-import Seeder from "../../interfaces/seeder-interface";
+import { Seeder } from "../../interfaces/database/config-database-interface";
 
 // Import models
 import User from "../models/masters/user-model";
