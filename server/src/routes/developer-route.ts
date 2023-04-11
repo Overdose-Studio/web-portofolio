@@ -15,7 +15,7 @@ import developerPhotoRouter from './developer/developer-photo-route';
 // Create router
 const developerRouter = async (app: FastifyInstance) => {
     // Apply middleware
-    app.addHook('onRequest', authMiddleware);
+    app.addHook('preParsing', authMiddleware);
     app.addHook('preHandler', roleMiddleware(UserRole.ADMIN, UserRole.DEVELOPER));
 
     // Register other routes

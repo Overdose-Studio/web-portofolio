@@ -20,8 +20,10 @@ const developerPhotoRouter = async (app: FastifyInstance) => {
     // Upload developer avatar
     app.post('/:id/upload/avatar', {
         preHandler: uploadHandlerMiddleware({
-            fields: ['avatar'],
+            name: 'avatar',
+            required: true,
             directory: 'developer/avatar',
+            maxFiles: 1,
             mimeTypes: ['image/png', 'image/jpeg', 'image/jpg']
         }),
         schema: {...developerPhotoSchema('avatar'), ...idParamsSchema}
@@ -30,8 +32,10 @@ const developerPhotoRouter = async (app: FastifyInstance) => {
     // Upload developer cover
     app.post('/:id/upload/cover', {
         preHandler: uploadHandlerMiddleware({
-            fields: ['cover'],
+            name: 'cover',
+            required: true,
             directory: 'developer/cover',
+            maxFiles: 1,
             mimeTypes: ['image/png', 'image/jpeg', 'image/jpg']
         }),
         schema: {...developerPhotoSchema('cover'), ...idParamsSchema}
