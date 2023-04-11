@@ -4,12 +4,12 @@
 import 'fastify';
 
 // Import interfaces
-import JSON_Standard from '../interfaces/json-standard-interface';
+import StandardJSON from '../interfaces/library/json-standard-library-interface';
 
 // Extend FastifyReply interface
 declare module 'fastify' {
     // Create JSON response reply interface
     interface FastifyReply {
-        json: (response: JSON_Standard) => FastifyReply;
+        json: (response: StandardJSON) => FastifyReply;
     }
 }

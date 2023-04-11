@@ -1,8 +1,8 @@
 // Import models
-import { StatusAPI } from '../database/enums/api-enum';
+import { StatusAPI } from '../../database/enums/api-enum';
 
 // Create JSON standard interface
-interface JSON_Standard {
+interface StandardJSON {
     status: StatusAPI;          // Status of the response
     status_code?: number;       // Status code of the response
     message: string;            // Message of the response
@@ -15,4 +15,4 @@ interface JSON_Standard {
 }
 
 // Export interface
-export default JSON_Standard;
+export default StandardJSON;

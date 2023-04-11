@@ -4,7 +4,7 @@ import colors from "colors";
 import dotenv from "dotenv";
 
 // Import interfaces
-import Database from "../interfaces/database-interface";
+import { Database } from "../interfaces/database/config-database-interface";
 
 // Load environment variables
 dotenv.config();

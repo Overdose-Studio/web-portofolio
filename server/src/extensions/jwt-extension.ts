@@ -3,12 +3,12 @@ import '@fastify/jwt';
 
 // Import interfaces
 import IUser from '../database/documents/masters/user-document';
-import TokenPayloadJWT from "../interfaces/jwt-payload-interface";
+import { ITokenPayloadJWT } from "../interfaces/payload/jwt-payload-interface";
 
 // Extend TokenError interface
 declare module '@fastify/jwt' {
     interface FastifyJWT {
-        payload: TokenPayloadJWT;
+        payload: ITokenPayloadJWT;
         user: IUser;
     }
 }

@@ -6,8 +6,8 @@ import { UserAction } from '../../database/enums/user-enum';
 import { ErrorAPI, StatusAPI } from '../../database/enums/api-enum';
 
 // Import interfaces
-import { IDeveloperBasicRequest } from '../../interfaces/developer-interface';
-import { IObjectIdParams } from '../../interfaces/params-interface';
+import { IObjectIdParams } from '../../interfaces/payload/params-payload-interface';
+import { IDeveloperBasicRequest } from '../../interfaces/payload/developer-payload-interface';
 
 // Import models
 import Developer from '../../database/models/transactions/developer-model';

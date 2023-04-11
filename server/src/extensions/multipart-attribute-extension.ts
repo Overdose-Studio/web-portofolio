@@ -2,7 +2,7 @@
 import 'fastify';
 
 // Import interfaces
-import { IUploadFiles } from '../interfaces/upload-interface';
+import { IUploadFiles } from '../interfaces/library/upload-library-interface';
 
 // Extend FastifyError interface
 declare module 'fastify' {

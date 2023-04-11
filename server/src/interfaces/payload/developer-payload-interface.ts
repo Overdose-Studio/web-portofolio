@@ -1,6 +1,6 @@
 // Import interfaces
-import { DeveloperType, DeveloperPhotoType } from "../database/enums/developer-enum";
-import { IFileBody } from "./upload-interface";
+import { DeveloperType, DeveloperPhotoType } from "../../database/enums/developer-enum";
+import { IFileBody } from "../library/upload-library-interface";
 
 // Create developer basic request interface
 export interface IDeveloperBasicRequest {

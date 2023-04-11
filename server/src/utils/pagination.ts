@@ -6,7 +6,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { ErrorAPI, StatusAPI } from "../database/enums/api-enum";
 
 // Import interfaces
-import { IPaginationQuery } from "../interfaces/pagination-interface";
+import { IPaginationQuery } from "../interfaces/payload/pagination-payload-interface";
 
 // Create get paginated data function
 export const getPaginatedData = async (

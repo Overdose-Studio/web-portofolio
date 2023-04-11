@@ -8,8 +8,8 @@ import { DeveloperPhotoType } from '../../database/enums/developer-enum';
 import { ErrorAPI, StatusAPI } from '../../database/enums/api-enum';
 
 // Import interfaces
-import { IDeveloperPhotoRequest, IDeveloperPhotoDeleteRequest } from '../../interfaces/developer-interface';
-import { IObjectIdParams } from '../../interfaces/params-interface';
+import { IObjectIdParams } from '../../interfaces/payload/params-payload-interface';
+import { IDeveloperPhotoRequest, IDeveloperPhotoDeleteRequest } from '../../interfaces/payload/developer-payload-interface';
 
 // Import models
 import Developer from '../../database/models/transactions/developer-model';

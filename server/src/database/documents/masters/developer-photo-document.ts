@@ -2,7 +2,7 @@
 import { Document } from "mongoose";
 
 // Import interfaces
-import TimestampDocument from "../../../interfaces/timestamp-document-interface";
+import { TimestampDocument } from "../../../interfaces/database/document-database-interface";
 
 // Create a developer photo document
 interface IDeveloperPhoto extends Document, TimestampDocument {

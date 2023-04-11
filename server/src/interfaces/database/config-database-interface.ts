@@ -2,12 +2,15 @@
 import { mongo, Connection } from "mongoose";
 
 // Create interface
-interface Database {
+export interface Database {
     connect: () => Promise<void>;                                           // Connect to database
     getCollections: () => Promise<mongo.Collection<mongo.BSON.Document>[]>  // Get all collections
     getConnection: () => Promise<Connection>                                // Get connection
     close: () => Promise<void>                                              // Close connection
 }
 
-// Export interface
-export default Database;
+// Create interface
+export interface Seeder {
+    label: string;                      // Label: name of seeder (plural)
+    seed: () => Promise<void>;          // Seed: function to seed data
+}
