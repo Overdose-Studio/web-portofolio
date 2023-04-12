@@ -20,7 +20,7 @@ const developerContactSchema = new Schema<IDeveloperContact>({
     },
     url: {
         type: String,
-        required: true
+        default: null
     }
 }, {
     collection: "developer_contacts",

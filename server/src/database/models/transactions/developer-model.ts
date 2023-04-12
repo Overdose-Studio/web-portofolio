@@ -11,9 +11,10 @@ import { ErrorAPI, StatusAPI } from "../../enums/api-enum";
 import { DeveloperType, DeveloperPhotoType } from "../../enums/developer-enum";
 
 // Import interfaces
-import IDeveloperPhoto from "../../documents/masters/developer-photo-document";
+import IDeveloperContact from "../../documents/masters/developer-contact-document";
 import IDeveloperEducation from "../../documents/masters/developer-education-document";
-import { IDeveloperEducationRequest } from "../../../interfaces/payload/developer-payload-interface";
+import IDeveloperPhoto from "../../documents/masters/developer-photo-document";
+import { IDeveloperEducationRequest, IDeveloperContactRequest } from "../../../interfaces/payload/developer-payload-interface";
 
 // Import models
 import DeveloperContact from "../masters/developer-contact-model";
@@ -79,6 +80,7 @@ developerSchema.plugin(softDelete);
 
 // Create methods for developer schema
 //----------------------------------------------------------------------------------------------------//
+
 // --- Get Photo
 developerSchema.methods.getPhoto = async function (): Promise<IDeveloperPhoto | null> {
     // Check if photo exists
@@ -183,6 +185,116 @@ developerSchema.methods.deletePhoto = async function (reply: FastifyReply, types
 
 //----------------------------------------------------------------------------------------------------//
 
+// --- Get Contacts
+developerSchema.methods.getContacts = async function (): Promise<IDeveloperContact[] | null> {
+    // Check if contacts
+    if (!this.contacts) return null;
+
+    // Get contacts
+    const contacts = await DeveloperContact
+    .find({
+        _id: { $in: this.contacts }
+    })
+    .lean()
+    .sort({ "type": 1 })
+    .select("-created_at -updated_at");
+
+    // Return contacts
+    return contacts;
+}
+
+// --- Add Contact
+developerSchema.methods.addContact = async function (reply: FastifyReply, data: IDeveloperContactRequest): Promise<IDeveloperContact[]> {
+    // Check contact id on developer (max 4)
+    if (this.contacts && this.contacts.length >= 4) {
+        reply.status(400);
+        reply.error = {
+            status: StatusAPI.FAILED,
+            type: ErrorAPI.MAXIMUM_REACHED,
+            data: {
+                contact: `Maximum contacts reached, maximum is 4`
+            }
+        };
+        throw new Error(`Failed to add contact on developer, please remove a contact first`);
+    }
+
+
+    // Create contact document
+    const contactDocument = await DeveloperContact.create({
+        type: data.type,
+        label: data.label,
+        url: data.url
+    });
+
+    // Add contact to developer
+    this.contacts.push(contactDocument._id);
+
+    // Save developer
+    await this.save();
+
+    // Return contacts
+    return await this.getContacts();
+}
+
+// --- Update Contact
+developerSchema.methods.updateContact = async function (reply: FastifyReply, data: IDeveloperContactRequest): Promise<IDeveloperContact[]> {
+    // Check contact id on developer
+    if (!this.contacts.includes(data._id)) {
+        reply.status(500);
+        reply.error = {
+            status: StatusAPI.FAILED,
+            type: ErrorAPI.NOT_FOUND,
+            data: {
+                contact: `Contact document does not exist, with id: ${data._id}`
+            }
+        };
+        throw new Error(`Failed to update contact on developer, please try again later or contact administrator`);
+    }
+
+    // Update contact document
+    await DeveloperContact.findByIdAndUpdate(data._id, {
+        type: data.type,
+        label: data.label,
+        url: data.url
+    });
+
+    // Return contacts
+    return await this.getContacts();
+}
+
+// --- Delete Contact
+developerSchema.methods.deleteContact = async function (reply: FastifyReply, ids: string[]): Promise<IDeveloperContact[]> {
+    // Check contacts id on developer
+    const invalidIds = ids.filter(id => !this.contacts.includes(id));
+    if (invalidIds.length > 0) {
+        reply.status(500);
+        reply.error = {
+            status: StatusAPI.FAILED,
+            type: ErrorAPI.NOT_FOUND,
+            data: {
+                contact: `Contact document does not exist, with id: ${invalidIds.join(", ")}`
+            }
+        };
+        throw new Error(`Failed to delete contact on developer, please try again later or contact administrator`);
+    }
+
+    // Delete contacts
+    await DeveloperContact.deleteMany({
+        _id: { $in: ids }
+    });
+
+    // Remove contacts from developer
+    this.contacts = (this.contacts as string[]).filter(id => !ids.includes(id.toString()));
+
+    // Save developer
+    await this.save();
+
+    // Return contacts
+    return await this.getContacts();
+}
+
+//----------------------------------------------------------------------------------------------------//
+
 // --- Get Educations
 developerSchema.methods.getEducations = async function (): Promise<IDeveloperEducation[] | null> {
     // Check if educations
@@ -278,7 +390,7 @@ developerSchema.methods.deleteEducation = async function (reply: FastifyReply, i
     });
 
     // Remove educations from developer
-    this.educations = (this.educations as string[]).filter(id => !ids.includes(id));
+    this.educations = (this.educations as string[]).filter(id => !ids.includes(id.toString()));
 
     // Save developer
     await this.save();

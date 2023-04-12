@@ -2,6 +2,7 @@
 export enum ErrorAPI {
     AUTHENTICATION = 'ERR_AUTHENTICATION',      // means that the request was not authenticated (e.g. missing or invalid token)
     AUTHORIZATION = 'ERR_AUTHORIZATION',        // means that the request was not authorized (e.g. role not allowed)
+    MAXIMUM_REACHED = 'ERR_MAXIMUM_REACHED',    // means that the request was not successful (e.g. maximum reached)
     NOT_FOUND = 'ERR_NOT_FOUND',                // means that the request was not found (e.g. data not found)
     PAGINATION = 'ERR_PAGINATION',              // means that the request was erroneous (e.g. pagination error)
     UPLOAD = 'ERR_UPLOAD',                      // means that the request was erroneous (e.g. upload error)

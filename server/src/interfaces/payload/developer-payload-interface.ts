@@ -1,5 +1,5 @@
 // Import interfaces
-import { DeveloperType, DeveloperPhotoType, DeveloperEducationLevel } from "../../database/enums/developer-enum";
+import { DeveloperType, DeveloperContactType, DeveloperPhotoType, DeveloperEducationLevel } from "../../database/enums/developer-enum";
 import { IFileBody } from "../library/upload-library-interface";
 
 // Create developer basic request interface
@@ -32,4 +32,13 @@ export interface IDeveloperEducationRequest {
     year_start: number;
     year_end?: number;
     description: string;
+}
+
+// Create developer contact request interface
+export interface IDeveloperContactRequest {
+    _id?: string;
+    _ids: string[];
+    type: DeveloperContactType;
+    label: string;
+    url: string;
 }
