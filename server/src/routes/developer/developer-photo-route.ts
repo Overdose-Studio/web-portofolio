@@ -3,6 +3,7 @@ import { FastifyInstance } from 'fastify';
 
 // Import controllers
 import {
+    getPhoto,
     uploadAvatar,
     uploadCover,
     deleteDeveloperPhoto
@@ -17,6 +18,11 @@ import { idParamsSchema } from '../../validations/params-validation';
 
 // Create router
 const developerPhotoRouter = async (app: FastifyInstance) => {
+    // Get photo by developer ID
+    app.get('/:id', {
+        schema: idParamsSchema
+    }, getPhoto);
+
     // Upload developer avatar
     app.post('/:id/upload/avatar', {
         preHandler: uploadHandlerMiddleware({
