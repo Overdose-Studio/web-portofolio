@@ -2,6 +2,9 @@
 import fs from 'fs';
 import { FastifyRequest, FastifyReply} from 'fastify';
 
+// Import controllers
+import { checkDeveloper } from './developer-helper-controller';
+
 // Import enums
 import { UserAction } from '../../database/enums/user-enum';
 import { DeveloperPhotoType } from '../../database/enums/developer-enum';
@@ -14,38 +17,47 @@ import { IDeveloperPhotoRequest, IDeveloperPhotoDeleteRequest } from '../../inte
 // Import models
 import Developer from '../../database/models/transactions/developer-model';
 
-// @desc   Upload developer avatar photo
-// @route  POST /developer/photo/:id/upload/avatar
+// @desc   Get developer photo
+// @route  GET /developer/photo/:id
 // @access Private (Admin, Developer)
-export const uploadAvatar = async (request: FastifyRequest, reply: FastifyReply) => {
-    // Get developer ID
-    const { id } = request.params as IObjectIdParams;
+export const getPhoto = async (request: FastifyRequest, reply: FastifyReply) => {
+    // Check if developer exists
+    const developer = await checkDeveloper(request, reply);
 
-    // Get avatar file
-    const { avatar } = request.body as IDeveloperPhotoRequest;
+    // Get developer photo
+    const developerPhoto = await developer.getPhoto();
 
-    /// Get developer
-    const developer = await Developer
-        .findById(id)
-        .where('deleted_at')
-        .equals(null);
-
-    // Throw error if developer does not exist
-    if (!developer) {
-        // Delete avatar file
-        fs.unlinkSync(avatar.path);
-
-        // Set response when error occurs
+    // Check if developer photo exists
+    if (!developerPhoto) {
         reply.status(404);
         reply.error = {
             status: StatusAPI.FAILED,
             type: ErrorAPI.NOT_FOUND,
             data: {
-                id: id
+                id: developer.id
             }
-        };
-        throw new Error('Developer not found');
+        }
+        throw new Error(`Photo not found for developer ${developer.name}`);
     }
+
+    // Send response
+    reply.status(200);
+    reply.json({
+        status: StatusAPI.SUCCESS,
+        message: `Get photo for developer ${developer.name} successfully`,
+        data: developerPhoto
+    });
+};
+
+// @desc   Upload developer avatar photo
+// @route  POST /developer/photo/:id/upload/avatar
+// @access Private (Admin, Developer)
+export const uploadAvatar = async (request: FastifyRequest, reply: FastifyReply) => {
+    // Check if developer exists
+    const developer = await checkDeveloper(request, reply);
+
+    // Get avatar file
+    const { avatar } = request.body as IDeveloperPhotoRequest;
 
     // Set avatar file on developer
     const developerPhoto = await developer.setPhoto(reply, {
@@ -64,19 +76,7 @@ export const uploadAvatar = async (request: FastifyRequest, reply: FastifyReply)
     reply.json({
         status: StatusAPI.SUCCESS,
         message: `Set avatar photo for developer ${developer.name} successfully`,
-        data: {
-            id: developer._id,
-            name: developer.name,
-            age: developer.age,
-            type: developer.type,
-            location: developer.location,
-            about: developer.about,
-            photo: {
-                avatar: developerPhoto.avatar,
-                cover: developerPhoto.cover
-            },
-            updated_at: developer.updated_at,
-        }
+        data: developerPhoto
     });
 };
 
@@ -84,34 +84,11 @@ export const uploadAvatar = async (request: FastifyRequest, reply: FastifyReply)
 // @route  POST /developer/photo/:id/upload/cover
 // @access Private (Admin, Developer)
 export const uploadCover = async (request: FastifyRequest, reply: FastifyReply) => {
-    // Get developer ID
-    const { id } = request.params as IObjectIdParams;
+    // Check if developer exists
+    const developer = await checkDeveloper(request, reply);
 
     // Get cover file
     const { cover } = request.body as IDeveloperPhotoRequest;
-
-    /// Get developer
-    const developer = await Developer
-        .findById(id)
-        .where('deleted_at')
-        .equals(null);
-
-    // Throw error if developer does not exist
-    if (!developer) {
-        // Delete cover file
-        fs.unlinkSync(cover.path);
-
-        // Set response when error occurs
-        reply.status(404);
-        reply.error = {
-            status: StatusAPI.FAILED,
-            type: ErrorAPI.NOT_FOUND,
-            data: {
-                id: id
-            }
-        };
-        throw new Error('Developer not found');
-    }
 
     // Set cover file on developer
     const developerPhoto = await developer.setPhoto(reply, {
@@ -130,19 +107,7 @@ export const uploadCover = async (request: FastifyRequest, reply: FastifyReply) 
     reply.json({
         status: StatusAPI.SUCCESS,
         message: `Set cover photo for developer ${developer.name} successfully`,
-        data: {
-            id: developer._id,
-            name: developer.name,
-            age: developer.age,
-            type: developer.type,
-            location: developer.location,
-            about: developer.about,
-            photo: {
-                avatar: developerPhoto.avatar,
-                cover: developerPhoto.cover
-            },
-            updated_at: developer.updated_at,
-        }
+        data: developerPhoto
     });
 };
 
@@ -150,31 +115,11 @@ export const uploadCover = async (request: FastifyRequest, reply: FastifyReply) 
 // @route  DELETE /developer/photo/:id/delete
 // @access Private (Admin, Developer)
 export const deleteDeveloperPhoto = async (request: FastifyRequest, reply: FastifyReply) => {
-    // Get developer ID
-    const { id } = request.params as IObjectIdParams;
+    // Check if developer exists
+    const developer = await checkDeveloper(request, reply);
 
     // Get data from request
     const { types } = request.body as IDeveloperPhotoDeleteRequest;
-
-    /// Get developer
-    const developer = await Developer
-        .findById(id)
-        .where('deleted_at')
-        .equals(null);
-
-    // Throw error if developer does not exist
-    if (!developer) {
-        // Set response when error occurs
-        reply.status(404);
-        reply.error = {
-            status: StatusAPI.FAILED,
-            type: ErrorAPI.NOT_FOUND,
-            data: {
-                id: id
-            }
-        };
-        throw new Error('Developer not found');
-    }
 
     // Set cover file on developer
     const developerPhoto = await developer.deletePhoto(reply, types);
@@ -190,18 +135,6 @@ export const deleteDeveloperPhoto = async (request: FastifyRequest, reply: Fasti
     reply.json({
         status: StatusAPI.SUCCESS,
         message: `Delete ${types.join('and')} photo for developer ${developer.name} successfully`,
-        data: {
-            id: developer._id,
-            name: developer.name,
-            age: developer.age,
-            type: developer.type,
-            location: developer.location,
-            about: developer.about,
-            photo: {
-                avatar: developerPhoto.avatar,
-                cover: developerPhoto.cover
-            },
-            updated_at: developer.updated_at,
-        }
+        data: developerPhoto
     });
 };
