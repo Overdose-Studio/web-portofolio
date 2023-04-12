@@ -1,6 +1,9 @@
 // Import dependencies
 import { FastifyRequest, FastifyReply} from 'fastify';
 
+// Import controllers
+import { checkDeveloper } from './developer-helper-controller';
+
 // Import enums
 import { UserAction } from '../../database/enums/user-enum';
 import { ErrorAPI, StatusAPI } from '../../database/enums/api-enum';
@@ -50,35 +53,24 @@ export const getAllDevelopers = async (request: FastifyRequest, reply: FastifyRe
 // @route  GET /developer/basic/:id
 // @access Private (Admin, Developer)
 export const getDeveloper = async (request: FastifyRequest, reply: FastifyReply) => {
-    // Get developer id
-    const { id } = request.params as IObjectIdParams;
-
     // Get developer
-    const developer = await Developer
-        .findById(id)
-        .where('deleted_at')
-        .equals(null);
-
-    // Throw error if developer does not exist
-    if (!developer) {
-        // Set response when error occurs
-        reply.status(404);
-        reply.error = {
-            status: StatusAPI.FAILED,
-            type: ErrorAPI.NOT_FOUND,
-            data: {
-                id: id
-            }
-        };
-        throw new Error('Developer not found');
-    }
+    const developer = await checkDeveloper(request, reply);
 
     // Send response
     reply.code(200);
     reply.json({
         status: StatusAPI.SUCCESS,
         message: 'Get developer successfully',
-        data: developer
+        data: {
+            id: developer._id,
+            name: developer.name,
+            age: developer.age,
+            type: developer.type,
+            location: developer.location,
+            about: developer.about,
+            created_at: developer.created_at,
+            updated_at: developer.updated_at,
+        }
     });
 };
 
@@ -125,31 +117,11 @@ export const createDeveloper = async (request: FastifyRequest, reply: FastifyRep
 // @route  PUT /developer/basic/:id
 // @access Private (Admin, Developer)
 export const updateDeveloper = async (request: FastifyRequest, reply: FastifyReply) => {
-    // Get developer id
-    const { id } = request.params as IObjectIdParams;
-
     // Get developer basic request
     const { name, age, type, location, about } = request.body as IDeveloperBasicRequest;
 
     // Get developer
-    const developer = await Developer
-        .findById(id)
-        .where('deleted_at')
-        .equals(null);
-
-    // Throw error if developer does not exist
-    if (!developer) {
-        // Set response when error occurs
-        reply.status(404);
-        reply.error = {
-            status: StatusAPI.FAILED,
-            type: ErrorAPI.NOT_FOUND,
-            data: {
-                id: id
-            }
-        };
-        throw new Error('Developer not found');
-    }
+    const developer = await checkDeveloper(request, reply);
 
     // Update developer
     developer.name = name;
@@ -177,6 +149,7 @@ export const updateDeveloper = async (request: FastifyRequest, reply: FastifyRep
             type: developer.type,
             location: developer.location,
             about: developer.about,
+            created_at: developer.created_at,
             updated_at: developer.updated_at,
         }
     });
@@ -186,28 +159,8 @@ export const updateDeveloper = async (request: FastifyRequest, reply: FastifyRep
 // @route  DELETE /developer/basic/:id
 // @access Private (Admin, Developer)
 export const deleteDeveloper = async (request: FastifyRequest, reply: FastifyReply) => {
-    // Get developer id
-    const { id } = request.params as IObjectIdParams;
-
     // Get developer
-    const developer = await Developer
-        .findById(id)
-        .where('deleted_at')
-        .equals(null);
-
-    // Throw error if developer does not exist
-    if (!developer) {
-        // Set response when error occurs
-        reply.status(404);
-        reply.error = {
-            status: StatusAPI.FAILED,
-            type: ErrorAPI.NOT_FOUND,
-            data: {
-                id: id
-            }
-        };
-        throw new Error('Developer not found');
-    }
+    const developer = await checkDeveloper(request, reply);
 
     // Delete developer
     await developer.softDelete();
@@ -230,6 +183,8 @@ export const deleteDeveloper = async (request: FastifyRequest, reply: FastifyRep
             type: developer.type,
             location: developer.location,
             about: developer.about,
+            created_at: developer.created_at,
+            updated_at: developer.updated_at,
             deleted_at: developer.deleted_at,
         }
     });
