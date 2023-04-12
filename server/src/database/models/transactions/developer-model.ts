@@ -14,7 +14,7 @@ import User from "../masters/user-model";
 import developerContactPlugin from "../../plugins/developer-contact-plugin";
 import developerEducationPlugin from "../../plugins/developer-education-plugin";
 import developerPhotoPlugin from "../../plugins/developer-photo-plugin";
-import softDelete from "../../../plugins/soft-delete-plugin";
+import softDeletePlugin from "../../plugins/soft-delete-plugin";
 
 // Create a developer schema
 const developerSchema = new Schema<IDeveloper>({
@@ -52,7 +52,7 @@ const developerSchema = new Schema<IDeveloper>({
 });
 
 // Register plugins
-developerSchema.plugin(softDelete);
+developerSchema.plugin(softDeletePlugin);
 developerSchema.plugin(developerContactPlugin);
 developerSchema.plugin(developerEducationPlugin);
 developerSchema.plugin(developerPhotoPlugin);
