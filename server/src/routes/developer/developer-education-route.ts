@@ -10,7 +10,7 @@ import {
 } from '../../controllers/developer/developer-education-controller';
 
 // Import schema validation
-import { developerEducationSchema, developerEducationDeleteSchema } from '../../validations/developer-payload-validation';
+import { developerEducationSchema, developerIdDeleteSchema } from '../../validations/developer-payload-validation';
 import { idParamsSchema } from '../../validations/params-validation';
 
 // Create router
@@ -40,7 +40,7 @@ const developerEducationRouter = async (app: FastifyInstance) => {
     app.delete('/:id', {
         schema: {
             ...idParamsSchema,
-            ...developerEducationDeleteSchema
+            ...developerIdDeleteSchema
         }
     }, deleteEducation);
 };
