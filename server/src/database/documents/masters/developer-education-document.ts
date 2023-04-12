@@ -11,7 +11,7 @@ import { TimestampDocument } from "../../../interfaces/database/document-databas
 interface IDeveloperEducation extends Document, TimestampDocument {
     // Properties
     level: DeveloperEducationLevel;
-    school: string;
+    institution: string;
     major: string;
     year: {
         start: number;

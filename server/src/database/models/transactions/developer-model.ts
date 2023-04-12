@@ -12,6 +12,8 @@ import { DeveloperType, DeveloperPhotoType } from "../../enums/developer-enum";
 
 // Import interfaces
 import IDeveloperPhoto from "../../documents/masters/developer-photo-document";
+import IDeveloperEducation from "../../documents/masters/developer-education-document";
+import { IDeveloperEducationRequest } from "../../../interfaces/payload/developer-payload-interface";
 
 // Import models
 import DeveloperContact from "../masters/developer-contact-model";
@@ -165,6 +167,109 @@ developerSchema.methods.deletePhoto = async function (reply: FastifyReply, types
 
     // Return photo document
     return photoDocument;
+}
+
+// --- Get Education
+developerSchema.methods.getEducations = async function (): Promise<IDeveloperEducation[] | null> {
+    // Check if educations
+    if (!this.educations) return null;
+
+    // Get educations
+    const educations = await DeveloperEducation.find({
+        _id: { $in: this.educations }
+    })
+    .lean()
+    .sort({ "year.start": -1 })
+    .select("-__v -created_at -updated_at");
+
+    // Return educations
+    return educations;
+}
+
+// --- Add Education
+developerSchema.methods.addEducation = async function (data: IDeveloperEducationRequest): Promise<IDeveloperEducation[]> {
+    // Create education document
+    const educationDocument = await DeveloperEducation.create({
+        level: data.level,
+        institution: data.institution,
+        major: data.major,
+        year: {
+            start: data.year_start,
+            end: data.year_end
+        },
+        description: data.description
+    });
+
+    // Add education to developer
+    this.educations.push(educationDocument._id);
+
+    // Save developer
+    await this.save();
+    
+    // Return educations
+    return await this.getEducations();
+}
+
+// --- Update Education
+developerSchema.methods.updateEducation = async function (reply: FastifyReply, data: IDeveloperEducationRequest): Promise<IDeveloperEducation[]> {
+    // Check education id on developer
+    if (!this.educations.includes(data._id)) {
+        reply.status(500);
+        reply.error = {
+            status: StatusAPI.FAILED,
+            type: ErrorAPI.NOT_FOUND,
+            data: {
+                education: `Education document does not exist, with id: ${data._id}`
+            }
+        };
+        throw new Error(`Failed to update education on developer, please try again later or contact administrator`);
+    }
+
+    // Update education document
+    await DeveloperEducation.findByIdAndUpdate(data._id, {
+        level: data.level,
+        institution: data.institution,
+        major: data.major,
+        year: {
+            start: data.year_start,
+            end: data.year_end
+        },
+        description: data.description
+    });
+
+    // Return educations
+    return await this.getEducations();
+}
+
+// --- Delete Education
+developerSchema.methods.deleteEducation = async function (reply: FastifyReply, ids: string[]): Promise<IDeveloperEducation[]> {
+    // Check educations id on developer
+    const invalidIds = ids.filter(id => !this.educations.includes(id));
+    if (invalidIds.length > 0) {
+        reply.status(500);
+        reply.error = {
+            status: StatusAPI.FAILED,
+            type: ErrorAPI.NOT_FOUND,
+            data: {
+                education: `Education document does not exist, with id: ${invalidIds.join(", ")}`
+            }
+        };
+        throw new Error(`Failed to delete education on developer, please try again later or contact administrator`);
+    }
+
+    // Delete educations
+    await DeveloperEducation.deleteMany({
+        _id: { $in: ids }
+    });
+
+    // Remove educations from developer
+    this.educations = (this.educations as string[]).filter(id => !ids.includes(id));
+
+    // Save developer
+    await this.save();
+
+    // Return educations
+    return await this.getEducations();
 }
 
 // Create a developer model
