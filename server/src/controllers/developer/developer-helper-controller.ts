@@ -16,7 +16,10 @@ export const checkDeveloper = async (request: FastifyRequest, reply: FastifyRepl
     const { id } = request.params as IObjectIdParams;
 
     // Get developer
-    const developer = await Developer.findById(id);
+    const developer = await Developer
+        .findById(id)
+        .where('deleted_at')
+        .equals(null);
 
     // Check if developer exists
     if (!developer) {
