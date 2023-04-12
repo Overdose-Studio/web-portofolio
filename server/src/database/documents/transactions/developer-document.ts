@@ -26,7 +26,8 @@ interface IDeveloper extends Document, TimestampDocument, SoftDeleteDocument {
     user: ObjectId;
 
     // Methods
-    setPhoto(reply: FastifyReply, data: { type: DeveloperPhotoType, path: string}): Promise<IDeveloperPhoto>;
+    getPhoto(): Promise<IDeveloperPhoto>;
+    setPhoto(reply: FastifyReply, data: { type: DeveloperPhotoType, path: string }): Promise<IDeveloperPhoto>;
     deletePhoto(reply: FastifyReply, types: DeveloperPhotoType[]): Promise<IDeveloperPhoto>;
     getEducations(): Promise<IDeveloperEducation[]>;
     addEducation(data: IDeveloperEducationRequest): Promise<IDeveloperEducation[]>;

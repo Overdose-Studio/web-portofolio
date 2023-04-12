@@ -78,6 +78,21 @@ const developerSchema = new Schema<IDeveloper>({
 developerSchema.plugin(softDelete);
 
 // Create methods for developer schema
+//----------------------------------------------------------------------------------------------------//
+// --- Get Photo
+developerSchema.methods.getPhoto = async function (): Promise<IDeveloperPhoto | null> {
+    // Check if photo exists
+    if (!this.photo) return null;
+
+    // Get photo document
+    const photoDocument = await DeveloperPhoto
+        .findById(this.photo)
+        .select("-_id -created_at -updated_at");
+
+    // Return photo document
+    return photoDocument;
+}
+
 // --- Set photo
 developerSchema.methods.setPhoto = async function (reply: FastifyReply, data: { type: DeveloperPhotoType, path: string }): Promise<IDeveloperPhoto> {
     // Get type and path
@@ -126,7 +141,7 @@ developerSchema.methods.setPhoto = async function (reply: FastifyReply, data: { 
     await this.save();
 
     // Return photo document
-    return photoDocument;
+    return await this.getPhoto();
 };
 
 // --- Delete photo
@@ -159,28 +174,28 @@ developerSchema.methods.deletePhoto = async function (reply: FastifyReply, types
         await DeveloperPhoto.findByIdAndUpdate(this.photo, { [type]: null });
     }
 
-    // Update photo document
-    photoDocument = await DeveloperPhoto.findById(this.photo);
-
     // Save developer
     await this.save();
 
     // Return photo document
-    return photoDocument;
+    return await this.getPhoto();
 }
 
-// --- Get Education
+//----------------------------------------------------------------------------------------------------//
+
+// --- Get Educations
 developerSchema.methods.getEducations = async function (): Promise<IDeveloperEducation[] | null> {
     // Check if educations
     if (!this.educations) return null;
 
     // Get educations
-    const educations = await DeveloperEducation.find({
+    const educations = await DeveloperEducation
+    .find({
         _id: { $in: this.educations }
     })
     .lean()
     .sort({ "year.start": -1 })
-    .select("-__v -created_at -updated_at");
+    .select("-created_at -updated_at");
 
     // Return educations
     return educations;
@@ -271,6 +286,8 @@ developerSchema.methods.deleteEducation = async function (reply: FastifyReply, i
     // Return educations
     return await this.getEducations();
 }
+
+//----------------------------------------------------------------------------------------------------//
 
 // Create a developer model
 const Developer = model<IDeveloper>("Developer", developerSchema);
