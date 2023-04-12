@@ -18,7 +18,7 @@ import { ITokenPayloadJWT } from "../../../interfaces/payload/jwt-payload-interf
 import UserLog from "../transactions/user-log-model";
 
 // Import plugins
-import softDelete from "../../../plugins/soft-delete-plugin";
+import softDeletePlugin from "../../plugins/soft-delete-plugin";
 
 // Create user schema
 const userSchema = new Schema<IUser>({
@@ -48,7 +48,7 @@ const userSchema = new Schema<IUser>({
 });
 
 // Add soft delete plugin
-userSchema.plugin(softDelete);
+userSchema.plugin(softDeletePlugin);
 
 // Create methods for user schema
 // --- Compare password

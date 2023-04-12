@@ -2,7 +2,7 @@
 import { Schema } from "mongoose";
 
 // Create a soft delete plugin
-const softDelete = (schema: Schema) => {
+const softDeletePlugin = (schema: Schema) => {
     // Add deleted_at field
     schema.add({
         deleted_at: {
@@ -30,4 +30,4 @@ const softDelete = (schema: Schema) => {
 };
 
 // Export soft delete plugin
-export default softDelete;
+export default softDeletePlugin;
