@@ -19,11 +19,31 @@ import { developerBasicSchema } from '../../validations/developer-payload-valida
 
 // Create router
 const developerBasicRouter = async (app: FastifyInstance) => {
+    // Get all developers
     app.get('/', paginationPlugin, getAllDevelopers);
-    app.get('/:id', { schema: idParamsSchema }, getDeveloper);
-    app.post('/', { schema: developerBasicSchema }, createDeveloper);
-    app.put('/:id', { schema: { ...idParamsSchema, ...developerBasicSchema } }, updateDeveloper);
-    app.delete('/:id', { schema: idParamsSchema }, deleteDeveloper);
+
+    // Get developer by ID
+    app.get('/:id', {
+        schema: idParamsSchema
+    }, getDeveloper);
+
+    // Create developer
+    app.post('/', {
+        schema: developerBasicSchema
+    }, createDeveloper);
+
+    // Update developer by ID
+    app.put('/:id', {
+        schema: { 
+            ...idParamsSchema,
+            ...developerBasicSchema
+        }
+    }, updateDeveloper);
+
+    // Delete developer by ID
+    app.delete('/:id', {
+        schema: idParamsSchema
+    }, deleteDeveloper);
 };
 
 // Export main router
