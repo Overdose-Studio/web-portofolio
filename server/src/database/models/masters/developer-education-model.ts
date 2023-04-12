@@ -14,7 +14,7 @@ const developerEducationSchema = new Schema<IDeveloperEducation>({
         enum: Object.values(DeveloperEducationLevel),
         required: true
     },
-    school: {
+    institution: {
         type: String,
         required: true
     },
