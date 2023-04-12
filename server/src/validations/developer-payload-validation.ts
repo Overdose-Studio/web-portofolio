@@ -2,7 +2,12 @@
 import Joi from "joi";
 
 // Import enums
-import { DeveloperType, DeveloperPhotoType, DeveloperEducationLevel } from "../database/enums/developer-enum";
+import {
+    DeveloperType,
+    DeveloperContactType,
+    DeveloperPhotoType,
+    DeveloperEducationLevel
+} from "../database/enums/developer-enum";
 
 // Create developer basic schema
 export const developerBasicSchema = {
@@ -204,8 +209,64 @@ export const developerEducationSchema = (param: { id: boolean }) => {
     };
 };
 
-// Create developer education delete schema
-export const developerEducationDeleteSchema = {
+// Create developer contact schema
+export const developerContactSchema = (param: { id: boolean }) => {
+    return {
+        body: Joi.object({
+            _id: param.id ? Joi
+                .string()
+                .trim()
+                .regex(/^[0-9a-fA-F]{24}$/)
+                .required()
+                .messages({
+                    'string.empty': 'Id is empty, please enter your id',
+                    'string.pattern.base': 'Id is invalid, please enter a valid id',
+                    'any.required': 'Id is required, please enter your id'
+                }) : null,
+            type: Joi
+                .string()
+                .valid(...Object.values(DeveloperContactType))
+                .required()
+                .messages({
+                    'string.empty': 'Type is empty, please enter your type',
+                    'any.only': `Type is invalid, please enter a valid type (${Object.values(DeveloperContactType).join(', ')})`,
+                    'any.required': 'Type is required, please enter your type',
+                }),
+            label: Joi
+                .string()
+                .min(3)
+                .max(32)
+                .required()
+                .messages({
+                    'string.empty': 'Label is empty, please enter your label',
+                    'string.min': 'Label must be at least 3 characters',
+                    'string.max': 'Label must be at most 32 characters',
+                    'any.required': 'Label is required, please enter your label',
+                }),
+            url: Joi
+                .string()
+                .min(3)
+                .max(256)
+                .uri()
+                .default(null)
+                .messages({
+                    'string.empty': 'Url is empty, please enter your url',
+                    'string.min': 'Url must be at least 3 characters',
+                    'string.max': 'Url must be at most 256 characters',
+                    'string.uri': 'Url is invalid, please enter a valid url',
+                })
+        })
+        .required()
+        .messages({
+            'object.base': 'Invalid request body, please check your request body',
+            'object.unknown': 'Field is not allowed, remove this field from your request body',
+        })
+        .options({ abortEarly: false }),
+    };
+};
+
+// Create developer id delete schema
+export const developerIdDeleteSchema = {
     body: Joi.object({
         _ids: Joi
             .array()
