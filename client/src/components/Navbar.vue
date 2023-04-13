@@ -20,7 +20,7 @@
           data-collapse-toggle="navbar-search"
           aria-controls="navbar-search"
           aria-expanded="false"
-          class="md:hidden order-2 md:order-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 mr-1"
+          class="md:hidden order-1 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 mr-1"
         >
           <svg
             class="w-5 h-5"
@@ -41,7 +41,7 @@
         <div
           v-if="isSearchOpen"
           :class="{ hidden: isMoved }"
-          class="relative right-0 md:right-auto order-3 md:order-2 md:inline"
+          class="relative md:right-auto order-3 md:order-1 md:inline"
         >
           <div
             class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
@@ -72,7 +72,7 @@
         <button
           @click="toggleDropdown()"
           type="button"
-          class="flex ml-5 text-sm bg-gray-800 order-2 md:order-2 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+          class="flex ml-5 text-sm bg-gray-800 order-1 md:order-2 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
           id="user-menu-button"
           aria-expanded="false"
           data-dropdown-toggle="user-dropdown"

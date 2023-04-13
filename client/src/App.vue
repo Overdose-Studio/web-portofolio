@@ -1,23 +1,23 @@
 <template>
-  <navbar
-    :pages = "pages"
-    :active-page = "activePage"
-  ></navbar>
+  <navbar :pages="pages" :active-page="activePage"></navbar>
+  <hero-page> </hero-page>
 </template>
 
 <script>
-import Navbar from './components/Navbar.vue'
+import Navbar from "./components/Navbar.vue";
+import HeroPage from "./components/HeroPage.vue";
 
 export default {
   components: {
-    Navbar
-  }
-}
+    Navbar,
+    HeroPage,
+  },
+};
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Lexend');
+@import url("https://fonts.googleapis.com/css?family=Lexend");
 #app {
-  font-family: 'Lexend';
+  font-family: "Lexend";
 }
 </style>
