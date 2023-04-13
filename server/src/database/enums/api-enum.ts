@@ -1,5 +1,6 @@
 // Create enum for error api model
 export enum ErrorAPI {
+    ALREADY_EXISTS = 'ERR_ALREADY_EXISTS',      // means that the request was not successful (e.g. already exists)
     AUTHENTICATION = 'ERR_AUTHENTICATION',      // means that the request was not authenticated (e.g. missing or invalid token)
     AUTHORIZATION = 'ERR_AUTHORIZATION',        // means that the request was not authorized (e.g. role not allowed)
     MAXIMUM_REACHED = 'ERR_MAXIMUM_REACHED',    // means that the request was not successful (e.g. maximum reached)
