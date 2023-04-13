@@ -7,7 +7,11 @@ import database from "./config-database";
 import { toTitleCase } from "../utils/string-helper";
 
 // Import seeders
+import developerSeeder from "./seeders/developer-seeder";
 import userSeeder from "./seeders/user-seeder";
+
+// Import interfaces
+import "../interfaces/database/config-database-interface";
 
 // Load environment variables
 dotenv.config();
@@ -16,7 +20,7 @@ dotenv.config();
 const debug = process.env.DEBUG_MODE === 'true';
 
 // Set seeder
-const seeders = [userSeeder];
+const seeders = [userSeeder, developerSeeder];
 
 // Create seeder
 const seeder = {
