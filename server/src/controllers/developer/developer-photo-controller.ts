@@ -126,7 +126,7 @@ export const deleteDeveloperPhoto = async (request: FastifyRequest, reply: Fasti
 
     // Create user log
     await request.user.createLog(reply, {
-        action: UserAction.UPDATE,
+        action: UserAction.DELETE,
         description: `Delete ${types.join('and')} photo for developer ${developer.name}`
     });
 
