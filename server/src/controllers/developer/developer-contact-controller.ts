@@ -58,7 +58,7 @@ export const addContact = async (request: FastifyRequest, reply: FastifyReply) =
 
     // Create user log
     await request.user.createLog(reply, {
-        action: UserAction.UPDATE,
+        action: UserAction.CREATE,
         description: `Add contact for developer ${developer.name}`
     });
 
