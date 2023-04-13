@@ -38,6 +38,28 @@ const developerAccountPlugin = (schema: Schema) => {
         }
     });
 
+    // Add hooks when developer is saved field `name` to update field `name` in user
+    schema.pre('save', async function (next) {
+        // Check if user is null
+        if (!this.user) next();
+
+        // Get user
+        const user = await User
+            .findById(this.user)
+            .where('deleted_at')
+            .equals(null);
+
+        // Check user account
+        if (user) {
+            // Update user
+            user.name = this.name;
+            await user.save();
+        }
+
+        // Continue
+        next();
+    });
+
     // Method: Get user account
     schema.methods.getAccount = async function (reply: FastifyReply): Promise<IUser> {
         // Send response when user is null
