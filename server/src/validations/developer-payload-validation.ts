@@ -293,3 +293,91 @@ export const developerIdDeleteSchema = {
         'object.unknown': 'Field is not allowed, remove this field from your request body',
     })
 };
+
+// Create developer account schema
+export const developerAccountSchema = (param: { password: boolean }) => {
+    return {
+        body: Joi.object({
+            email: Joi
+                .string()
+                .trim()
+                .lowercase()
+                .email()
+                .required()
+                .messages({
+                    'string.empty': 'Email is empty, please enter your email',
+                    'string.email': 'Email is invalid, please enter a valid email',
+                    'any.required': 'Email is required, please enter your email'
+                }),
+            password: param.password ? Joi
+                .string()
+                .min(8)
+                .max(32)
+                .required()
+                .messages({
+                    'string.empty': 'Password is empty, please enter your password',
+                    'string.min': 'Password must be at least 8 characters',
+                    'string.max': 'Password must be at most 32 characters',
+                    'any.required': 'Password is required, please enter your password'
+                }) : null,
+            password_confirmation: param.password ? Joi
+                .string()
+                .valid(Joi.ref('password'))
+                .required()
+                .messages({
+                    'string.empty': 'Password confirmation is empty, please enter your password confirmation',
+                    'any.only': 'Password confirmation is wrong, please enter your password confirmation',
+                    'any.required': 'Password confirmation is required, please enter your password confirmation'
+                }) : null,
+        })
+        .required()
+        .messages({
+            'object.base': 'Invalid request body, please check your request body',
+            'object.unknown': 'Field is not allowed, remove this field from your request body',
+        })
+        .options({ abortEarly: false }),
+    }
+};
+
+// Create developer change password schema
+export const developerChangePasswordSchema = {
+    body: Joi.object({
+        password: Joi
+            .string()
+            .min(8)
+            .max(32)
+            .required()
+            .messages({
+                'string.empty': 'Password is empty, please enter your password',
+                'string.min': 'Password must be at least 8 characters',
+                'string.max': 'Password must be at most 32 characters',
+                'any.required': 'Password is required, please enter your password'
+            }),
+        new_password: Joi
+            .string()
+            .min(8)
+            .max(32)
+            .required()
+            .messages({
+                'string.empty': 'New password is empty, please enter your new password',
+                'string.min': 'New password must be at least 8 characters',
+                'string.max': 'New password must be at most 32 characters',
+                'any.required': 'New password is required, please enter your new password'
+            }),
+        new_password_confirmation: Joi
+            .string()
+            .valid(Joi.ref('new_password'))
+            .required()
+            .messages({
+                'string.empty': 'New password confirmation is empty, please enter your new password confirmation',
+                'any.only': 'New password confirmation is wrong, please enter your new password confirmation',
+                'any.required': 'New password confirmation is required, please enter your new password confirmation'
+            }),
+    })
+    .required()
+    .messages({
+        'object.base': 'Invalid request body, please check your request body',
+        'object.unknown': 'Field is not allowed, remove this field from your request body',
+    })
+    .options({ abortEarly: false })
+};
