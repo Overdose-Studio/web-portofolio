@@ -5,6 +5,7 @@ import { Document, ObjectId } from "mongoose";
 import { DeveloperType } from "../../enums/developer-enum";
 
 // Import interfaces
+import { IDeveloperAccountPlugin } from "../../plugins/developer-account-plugin";
 import { IDeveloperPhotoPlugin } from "../../plugins/developer-photo-plugin";
 import { IDeveloperContactPlugin } from "../../plugins/developer-contact-plugin";
 import { IDeveloperEducationPlugin } from "../../plugins/developer-education-plugin";
@@ -15,6 +16,7 @@ interface IDeveloper extends
     Document,
     TimestampDocument,
     SoftDeleteDocument,
+    IDeveloperAccountPlugin,
     IDeveloperContactPlugin,
     IDeveloperEducationPlugin,
     IDeveloperPhotoPlugin
@@ -26,7 +28,6 @@ interface IDeveloper extends
     type: DeveloperType;
     location: string;
     about: string;
-    user: ObjectId;
 }
 
 // Export developer document

@@ -42,3 +42,10 @@ export interface IDeveloperContactRequest {
     label: string;
     url: string;
 }
+
+// Create developer account request interface
+export interface IDeveloperAccountRequest {
+    email: string;
+    password: string;
+    new_password: string;
+}
