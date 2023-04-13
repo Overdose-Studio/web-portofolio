@@ -9,6 +9,7 @@ import authMiddleware from '../middleware/auth-middleware';
 import roleMiddleware from '../middleware/role-middleware';
 
 // Import routes
+import developerAccountRouter from './developer/developer-account-route';
 import developerBasicRouter from './developer/developer-basic-route';
 import developerContactRouter from './developer/developer-contact-route';
 import developerEducationRouter from './developer/developer-education-route';
@@ -21,6 +22,7 @@ const developerRouter = async (app: FastifyInstance) => {
     app.addHook('preHandler', roleMiddleware(UserRole.ADMIN, UserRole.DEVELOPER));
 
     // Register other routes
+    app.register(developerAccountRouter, { prefix: '/account' });
     app.register(developerBasicRouter, { prefix: '/basic' });
     app.register(developerContactRouter, { prefix: '/contact' });
     app.register(developerEducationRouter, { prefix: '/education' });
