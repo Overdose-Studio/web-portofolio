@@ -58,7 +58,7 @@ export const addEducation = async (request: FastifyRequest, reply: FastifyReply)
 
     // Create user log
     await request.user.createLog(reply, {
-        action: UserAction.UPDATE,
+        action: UserAction.CREATE,
         description: `Add education for developer ${developer.name}`
     });
 
