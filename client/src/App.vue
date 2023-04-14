@@ -1,6 +1,6 @@
 <template>
-  <navbar :pages="pages" :active-page="activePage"></navbar>
-  <hero-page> </hero-page>
+  <navbar></navbar>
+  <hero-page v-if="pages.length > 0" :page="pages[0]"></hero-page>
 </template>
 
 <script>
@@ -11,6 +11,23 @@ export default {
   components: {
     Navbar,
     HeroPage,
+  },
+  created() {
+    this.getPages();
+  },
+  data() {
+    return {
+      pages: [],
+    };
+  },
+  methods: {
+    async getPages() {
+      let result = await fetch("pages.json");
+      let data = await result.json();
+
+      this.pages = data;
+      console.log("success load data");
+    },
   },
 };
 </script>

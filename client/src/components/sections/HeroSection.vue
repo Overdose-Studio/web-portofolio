@@ -4,13 +4,12 @@
       <h1
         class="mb-4 text-4xl font-extrabold leading-left tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"
       >
-        Overdose Studio
+        {{ heroSection.sectionTitle }}
       </h1>
       <p
         class="mb-8 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400"
       >
-        Here at Flowbite we focus on markets where technology, innovation, and
-        capital can unlock long-term value and drive economic growth.
+        {{ heroSection.sectionContent }}
       </p>
       <div
         class="flex flex-col flex-wrap items-left mb-8 space-y-4 lg:mb-16 sm:flex-row sm:space-y-0 sm:space-x-4"
@@ -33,25 +32,24 @@
             ></path>
           </svg>
         </a>
-        <!-- <a
-          href="#"
-          class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
-        >
-          <svg
-            class="w-5 h-5 mr-2 -ml-1"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"
-            ></path>
-          </svg>
-          Watch video
-        </a> -->
       </div>
     </div>
   </section>
 </template>
 
-<script></script>
+<script>
+export default {
+  props: {
+    // props validation with default value
+    heroSection: {
+      type: Object,
+      default(rawProps) {
+        return {
+          sectionTitle: "",
+          sectionContent: "",
+        };
+      },
+    },
+  },
+};
+</script>

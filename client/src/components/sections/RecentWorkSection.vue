@@ -5,21 +5,21 @@
       <h2
         class="mb-4 text-3xl font-bold leading-left tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white"
       >
-        Our Recent Work
+        {{ recentWorkSection.sectionTitle }}
       </h2>
     </div>
     <!-- Category Navigation -->
-    <category></category>
+    <category
+      :categories="recentWorkSection.sectionContent.categories"
+    ></category>
     <div class="px-4 mx-auto text-center md:max-w-screen-md lg:max-w-screen-lg">
       <!-- Project Preview -->
       <div
         class="flex flex-wrap items-center justify-center my-10 text-gray-500 sm:justify-between"
       >
-        <!-- Coloumn -->
+        <!-- Grid -->
         <ul class="grid w-full gap-6 grid-cols-4">
-          <li>
-            <project-preview></project-preview>
-          </li>
+          <project-preview></project-preview>
         </ul>
       </div>
     </div>
@@ -34,6 +34,18 @@ export default {
   components: {
     Category,
     ProjectPreview,
+  },
+  props: {
+    // props validation with default value
+    recentWorkSection: {
+      type: Object,
+      default(rawProps) {
+        return {
+          sectionTitle: "",
+          sectionContent: "",
+        };
+      },
+    },
   },
 };
 </script>

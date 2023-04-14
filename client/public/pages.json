@@ -1,0 +1,43 @@
+[
+    {
+        "pageTitle": "Landing Page",
+        "pageContents": [
+                {
+                    "sectionTitle" : "Overdose Studio",
+                    "sectionContent" : "Order your app from professionals" 
+                },
+                {
+                    "sectionTitle" : "What we do",
+                    "sectionContent" : {
+                        "service" : ["Web App","Mobile App","Design"],
+                        "serviceDescription" : ["Web App desc","Mobile App desc","Design desc"]
+                    } 
+                },
+                {
+                    "sectionTitle" : "Our recent work",
+                    "sectionContent" : {
+                        "categories" : ["All","Mobile","Web"],
+                        "projects" : ["projects"]
+                    } 
+                },
+                {
+                    "sectionTitle" : "Why choose us?",
+                    "sectionContent" : {
+                        "reasons" : ["reason1","reason1"],
+                        "reasonDescriptions" : ["desc1","desc2"],
+                        "sectionHeading" : "Have a project to promote?",
+                        "link" : {"text": "Let's talk", "url" : "https://wa.me/+6281281175625"}
+                    }
+                },
+                {
+                    "sectionTitle" : "Overdose Studio",
+                    "sectionContent" : {
+                        "socialMedia" : ["Gmail","Instagram","WhatsApp"],
+                        "link" : ["mailto:overdose.studio19@gmail.com","https://www.instagram.com/overdose.std/","https://wa.me/+6281281175625"]
+                    }
+                }
+            ]
+            
+        
+    }
+]

@@ -5,7 +5,7 @@
       <h2
         class="mb-4 text-3xl font-bold leading-left tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white"
       >
-        What We Do
+        {{ whatWeDoSection.sectionTitle }}
       </h2>
       <!-- Button -->
       <div
@@ -24,7 +24,7 @@
             />
             <label
               for="web-app"
-              class="inline-flex items-left justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+              class="inline-flex items-left justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg dark:hover:text-gray-300 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800"
             >
               <div class="block text-left">
                 <svg
@@ -44,9 +44,11 @@
                 <h1
                   class="text-xl md:text-2xl font-bold leading-left tracking-tight text-gray-900 dark:text-white"
                 >
-                  Web App
+                  {{ whatWeDoSection.sectionContent.service[0] }}
                 </h1>
-                <div class="w-full">Good for small websites</div>
+                <div class="w-full">
+                  {{ whatWeDoSection.sectionContent.serviceDescription[0] }}
+                </div>
               </div>
             </label>
           </li>
@@ -60,7 +62,7 @@
             />
             <label
               for="mobile-app"
-              class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+              class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg dark:hover:text-gray-300 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800"
             >
               <div class="block text-left">
                 <svg
@@ -80,9 +82,11 @@
                 <h3
                   class="text-xl md:text-2xl font-bold leading-left tracking-tight text-gray-900 dark:text-white"
                 >
-                  Mobile App
+                  {{ whatWeDoSection.sectionContent.service[1] }}
                 </h3>
-                <div class="w-full">Good for small websites</div>
+                <div class="w-full">
+                  {{ whatWeDoSection.sectionContent.serviceDescription[1] }}
+                </div>
               </div>
             </label>
           </li>
@@ -96,7 +100,7 @@
             />
             <label
               for="design"
-              class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+              class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg dark:hover:text-gray-300 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800"
             >
               <div class="block text-left">
                 <svg
@@ -116,9 +120,11 @@
                 <h1
                   class="text-xl md:text-2xl font-bold leading-left tracking-tight text-gray-900 dark:text-white"
                 >
-                  Design
+                  {{ whatWeDoSection.sectionContent.service[2] }}
                 </h1>
-                <div class="w-full">Good for small websites</div>
+                <div class="w-full">
+                  {{ whatWeDoSection.sectionContent.serviceDescription[2] }}
+                </div>
               </div>
             </label>
           </li>
@@ -128,4 +134,19 @@
   </section>
 </template>
 
-<script></script>
+<script>
+export default {
+  props: {
+    // props validation with default value
+    whatWeDoSection: {
+      type: Object,
+      default(rawProps) {
+        return {
+          sectionTitle: "",
+          sectionContent: "",
+        };
+      },
+    },
+  },
+};
+</script>
