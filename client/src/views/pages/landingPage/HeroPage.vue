@@ -2,7 +2,7 @@
   <hero-section :heroSection="pageContent[0]"></hero-section>
   <WhatWeDoSection :whatWeDoSection="pageContent[1]"></WhatWeDoSection>
   <RecentWorkSection :recentWorkSection="pageContent[2]"></RecentWorkSection>
-  <WhyChooseUsSection :reasonSection="pageContent[3]"></WhyChooseUsSection>
+  <ReasonSection :reasonSection="pageContent[3]"></ReasonSection>
   <Footer :footerSection="pageContent[4]"></Footer>
 </template>
 
@@ -10,7 +10,7 @@
 import HeroSection from "./sections/HeroSection.vue";
 import WhatWeDoSection from "./sections/WhatWeDoSection.vue";
 import RecentWorkSection from "./sections/RecentWorkSection.vue";
-import WhyChooseUsSection from "./sections/WhyChooseUsSection.vue";
+import ReasonSection from "./sections/ReasonSection.vue";
 import Footer from "./sections/Footer.vue";
 
 export default {
@@ -18,7 +18,7 @@ export default {
     HeroSection,
     WhatWeDoSection,
     RecentWorkSection,
-    WhyChooseUsSection,
+    ReasonSection,
     Footer,
   },
 

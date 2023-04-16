@@ -22,6 +22,7 @@
               type="button"
               class="text-white hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
             >
+              <!-- Email icon -->
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -46,6 +47,7 @@
               type="button"
               class="text-white hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
             >
+              <!-- Instagram icon -->
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="w-7 h-7"
@@ -67,6 +69,7 @@
               type="button"
               class="text-white hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
             >
+              <!-- Whatsapp icon -->
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="w-7 h-7"

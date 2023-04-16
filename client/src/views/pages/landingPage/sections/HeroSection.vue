@@ -1,16 +1,19 @@
 <template>
   <section class="bg-white dark:bg-gray-900 lg:pt-64">
     <div class="max-w-screen-xl px-4 py-8 mx-auto text-left lg:py-16 lg:px-12">
+      <!-- Title -->
       <h1
         class="mb-4 text-4xl font-extrabold leading-left tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"
       >
         {{ heroSection.sectionTitle }}
       </h1>
+      <!-- Subtitle -->
       <p
         class="mb-8 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400"
       >
         {{ heroSection.sectionContent }}
       </p>
+      <!-- Button -->
       <div
         class="flex flex-col flex-wrap items-left mb-8 space-y-4 lg:mb-16 sm:flex-row sm:space-y-0 sm:space-x-4"
       >

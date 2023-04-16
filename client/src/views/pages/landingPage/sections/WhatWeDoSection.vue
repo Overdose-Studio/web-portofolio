@@ -14,19 +14,12 @@
         <!-- Coloumn -->
         <ul class="grid w-full gap-6 grid-cols-3">
           <li>
-            <input
-              type="radio"
-              id="web-app"
-              name="hosting"
-              value="web-app"
-              class="hidden peer"
-              required
-            />
+            <!-- Web App -->
             <label
-              for="web-app"
               class="inline-flex items-left justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg dark:hover:text-gray-300 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800"
             >
               <div class="block text-left">
+                <!-- Icon -->
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -53,15 +46,8 @@
             </label>
           </li>
           <li>
-            <input
-              type="radio"
-              id="mobile-app"
-              name="hosting"
-              value="mobile-app"
-              class="hidden peer"
-            />
+            <!-- Mobile App -->
             <label
-              for="mobile-app"
               class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg dark:hover:text-gray-300 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800"
             >
               <div class="block text-left">
@@ -91,15 +77,8 @@
             </label>
           </li>
           <li>
-            <input
-              type="radio"
-              id="design"
-              name="hosting"
-              value="design"
-              class="hidden peer"
-            />
+            <!-- Design -->
             <label
-              for="design"
               class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg dark:hover:text-gray-300 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800"
             >
               <div class="block text-left">

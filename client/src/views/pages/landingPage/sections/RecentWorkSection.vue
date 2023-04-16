@@ -18,8 +18,8 @@
         class="flex flex-wrap items-center justify-center my-10 text-gray-500 sm:justify-between"
       >
         <!-- Grid -->
-        <ul class="grid w-full gap-6 grid-cols-4">
-          <project-preview></project-preview>
+        <ul class="grid w-full gap-6 md:grid-cols-4 grid-cols-3">
+          <project-preview v-for="number in 10"></project-preview>
         </ul>
       </div>
     </div>
@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import Category from "../Category.vue";
-import ProjectPreview from "../ProjectPreview.vue";
+import Category from "../../../components/Category.vue";
+import ProjectPreview from "../../../components/ProjectPreview.vue";
 
 export default {
   components: {

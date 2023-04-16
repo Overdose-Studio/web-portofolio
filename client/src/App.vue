@@ -1,16 +1,19 @@
 <template>
   <navbar></navbar>
-  <hero-page v-if="pages.length > 0" :page="pages[0]"></hero-page>
+  <!-- <hero-page v-if="pages.length > 0" :page="pages[0]"></hero-page> -->
+  <project-page></project-page>
 </template>
 
 <script>
-import Navbar from "./components/Navbar.vue";
-import HeroPage from "./components/HeroPage.vue";
+import Navbar from "./views/components/Navbar.vue";
+import HeroPage from "./views/pages/landingPage/HeroPage.vue";
+import ProjectPage from "./views/pages/projectPage/ProjectPage.vue";
 
 export default {
   components: {
     Navbar,
     HeroPage,
+    ProjectPage,
   },
   created() {
     this.getPages();

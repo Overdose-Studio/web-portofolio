@@ -1,12 +1,15 @@
 <template>
   <li>
-    <button type="button" id="mobile-app" name="hosting" value="mobile-app" />
+    <!-- <button type="button" id="mobile-app" name="hosting" value="mobile-app" /> -->
     <label
       for="mobile-app"
       class="inline-flex items-center justify-between w-full text-gray-500 bg-white rounded-lg cursor-pointer dark:hover:text-gray-300 dark:peer-checked:text-blue-500 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
     >
       <div class="block text-left">
-        <img class="h-auto w-auto rounded-lg" src="../assets/placeholder.png" />
+        <img
+          class="h-auto w-auto rounded-lg"
+          src="@/assets/image/placeholder.png"
+        />
         <div
           class="flex flex-row items-center text-gray-500 sm:justify-between"
         >
@@ -25,14 +28,14 @@
             <!-- Like & View -->
             <li>
               <ul class="flex flex-row flex-wrap w-full justify-center px-1">
-                <!-- Likes -->
+                <!-- Like icon -->
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
-                  class="w-6 h-6"
+                  class="w-4 h-4 md:w-6 h-6"
                 >
                   <path
                     stroke-linecap="round"
@@ -40,19 +43,20 @@
                     d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
                   />
                 </svg>
+                <!-- Likes -->
                 <h3
                   class="text-s md:text-m font-regular leading-left tracking-tight text-gray-900 dark:text-white"
                 >
                   123
                 </h3>
-                <!-- Views -->
+                <!-- View icon -->
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
-                  class="w-6 h-6"
+                  class="w-4 h-4 md:w-6 h-6"
                 >
                   <path
                     stroke-linecap="round"
@@ -65,6 +69,7 @@
                     d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
+                <!-- Views -->
                 <h3
                   class="text-s md:text-m font-regular leading-left tracking-tight text-gray-900 dark:text-white"
                 >
@@ -74,7 +79,6 @@
             </li>
           </ul>
         </div>
-
         <div class="w-full">Owners</div>
       </div>
     </label>

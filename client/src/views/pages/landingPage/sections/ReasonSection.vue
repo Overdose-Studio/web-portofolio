@@ -36,6 +36,7 @@
           </li>
         </ul>
       </div>
+      <!-- Heading -->
       <div class="flex w-full justify-between items-center">
         <h2
           class="mb-4 text-3xl font-bold leading-left text-gray-900 md:text-4xl lg:text-5xl dark:text-white"
