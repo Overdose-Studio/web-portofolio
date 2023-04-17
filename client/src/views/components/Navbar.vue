@@ -4,8 +4,13 @@
       class="max-w-screen flex flex-wrap items-center justify-between mx-auto p-4"
     >
       <!-- Title & logo -->
-      <a href="https://flowbite.com/" class="flex items-center">
-        <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 mr-3" />
+      <a href="" class="flex items-center">
+        <div class="h-8 w-8 rounded-full overflow-hidden mr-3">
+          <img
+            src="../../assets/image/placeholder.png"
+            class="w-full h-full object-cover"
+          />
+        </div>
         <span
           class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
           >Overdose Studio</span
@@ -80,8 +85,8 @@
         >
           <span class="sr-only">Open user menu</span>
           <img
-            class="w-8 h-8 rounded-full"
-            src="https://flowbite.com/docs/images/logo.svg"
+            class="w-8 h-8 rounded-full overflow-hidden object-cover"
+            src="../../assets/image/placeholder.png"
           />
         </button>
         <!-- Profile dropdown -->
