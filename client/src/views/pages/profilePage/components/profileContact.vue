@@ -1,12 +1,13 @@
 <template>
   <div class="w-1/3">
     <div
-      class="absolute top-20 transform translate-y-40 w-full max-w-sm bg-white border border-gray-200 p-5 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+      class="absolute top-20 transform translate-y-40 w-full max-w-xs bg-white border border-gray-200 p-5 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
     >
       <div class="flex justify-end">
         <button
           class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
           type="button"
+          @click.provent="showEditContactModal = true"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -30,9 +31,9 @@
           src="@/assets/image/placeholder.png"
           alt="Bonnie image"
         />
-        <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+        <h2 class="text-xl font-medium text-gray-900 dark:text-white">
           {{ developerData.name }}
-        </h5>
+        </h2>
         <span class="text-sm text-gray-500 dark:text-gray-400">{{
           developerData.role
         }}</span>
@@ -41,36 +42,48 @@
         Contact me
       </h5>
       <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
-        <li v-for="link in developerData.links" class="py-3 sm:py-4">
+        <li v-for="link in developerData.links" class="py-3 md:py-4">
           <a class="cursor-pointer" :href="link.url">
             <div class="flex flex-shrink-0 items-center space-x-4">
               <img
                 class="w-8 h-8 rounded-full object-cover"
                 src="@/assets/image/placeholder.png"
-                alt="Neil image"
+                alt="Developer Avatar"
               />
-              <div class="flex-1 min-w-0">
-                <p class="text-sm text-gray-500 dark:text-gray-400">
-                  {{ link.url }}
-                </p>
-              </div>
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                {{ link.url }}
+              </p>
             </div>
           </a>
         </li>
       </ul>
-      <h5 class="mb-1 text-l font-medium text-gray-900 dark:text-white">
+      <h5 class="my-3 text-l font-medium text-gray-900 dark:text-white">
         About me
       </h5>
-      <p class="text-sm text-gray-500 dark:text-gray-400">
+      <p class="text-sm text-justify text-gray-500 dark:text-gray-400">
         {{ developerData.description }}
       </p>
     </div>
   </div>
+  <!-- Modal -->
+
+  <div
+    v-if="showEditContactModal"
+    class="fixed top-0 left-0 right-0 bottom-0 z-50 w-full h-auto bg-gray-500 backdrop-blur-lg bg-opacity-50 p-4 overflow-hidden flex items-center justify-center"
+  >
+    <editContactModal @close="showEditContactModal = false"></editContactModal>
+  </div>
 </template>
 <script>
+import editContactModal from "../components/modals/editContactModal.vue";
+
 export default {
+  components: {
+    editContactModal,
+  },
   data() {
     return {
+      showEditContactModal: false,
       developerData: {
         name: "Developer name",
         role: "Developer Role",
@@ -84,6 +97,12 @@ export default {
         ],
       },
     };
+  },
+  methods: {
+    editContactToggle() {
+      this.editModalIsOpen = !this.editModalIsOpen;
+      console.log(this.editModalIsOpen);
+    },
   },
 };
 </script>

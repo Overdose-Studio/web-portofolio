@@ -91,8 +91,8 @@
         </button>
         <!-- Profile dropdown -->
         <div
-          v-if="isDropdownOpen"
-          class="absolute top-20 right-2.5 left-90 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+          v-if="isDropdownOpen == true"
+          class="absolute z-50 top-20 right-2.5 left-90 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
           id="user-dropdown"
         >
           <div class="px-4 py-3">

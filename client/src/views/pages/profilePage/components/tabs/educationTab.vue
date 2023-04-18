@@ -23,7 +23,7 @@
         </svg>
       </button>
     </div>
-    <h2 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+    <h2 class="mb-5 text-xl font-medium text-gray-900 dark:text-white">
       Education
     </h2>
     <ul class="space-y-4 text-gray-500 list-disc dark:text-gray-400 ml-10">

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-2/3">
+  <div class="w-2/3 py-5">
     <div
       class="flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400"
     >
@@ -13,13 +13,13 @@
           ]"
           @click.prevent="navigate(index)"
         >
-          {{ item.title }}
+          {{ item }}
         </button>
       </div>
     </div>
     <div class="my-3">
-      <worksTab v-if="activeIndex == 0"></worksTab>
-      <educationTab v-if="activeIndex == 1"></educationTab>
+      <worksTab v-if="menuItems[activeIndex] == 'Works'"></worksTab>
+      <educationTab v-if="menuItems[activeIndex] == 'Education'"></educationTab>
     </div>
   </div>
 </template>
@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      menuItems: [{ title: "Works" }, { title: "Education" }],
+      menuItems: ["Works", "Education"],
       activeIndex: 0,
     };
   },
