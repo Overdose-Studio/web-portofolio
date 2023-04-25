@@ -1,7 +1,6 @@
 <template>
-  <!-- Tumbnail section -->
   <section>
-    <!-- Carousel container -->
+    <!-- Tumbnail section -->
     <div class="relative w-full h-56 overflow-hidden md:h-96">
       <!-- Image slider -->
       <div class="w-full h-96 flex-shrink-0">

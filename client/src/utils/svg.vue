@@ -1,16 +1,19 @@
 <template>
   <svg
-    xmlns="{{param.xmls}}"
-    fill="{{param.fill}}"
-    viewBox="{{param.viewBox}}"
-    stroke-width="{{param.strokeWidth}}"
-    stroke="{{param.strokeColor}}"
-    class="{{param.class}}"
+    :width="size"
+    :height="size"
+    :viewBox="viewBox"
+    stroke-width="1.5"
+    :stroke="stroke"
+    :fill="fill"
+    xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      stroke-linecap="{{param.strokeLineca}}"
-      stroke-linejoin="{{param.xmls}}"
-      d="{{param.d}}"
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      :d="path"
     />
   </svg>
 </template>
@@ -18,22 +21,25 @@
 <script>
 export default {
   props: {
-    param: {
-      type: Object,
-      default(rawProps) {
-        return {
-          xmlns: "http://www.w3.org/2000/svg",
-          fill: "none",
-          viewBox: "0 0 24 24",
-          strokeWidth: "1.5",
-          strokeColor: "currentColor",
-          class: "w-10 h-10",
-
-          strokeLineCap: "round",
-          StrokeLineJoin: "round",
-          d: "",
-        };
-      },
+    size: {
+      type: [Number, String],
+      default: 24,
+    },
+    path: {
+      type: String,
+      required: true,
+    },
+    stroke: {
+      type: String,
+      required: true,
+    },
+    fill: {
+      type: String,
+      required: true,
+    },
+    viewBox: {
+      type: [Number, String],
+      default: "0 0 24 24",
     },
   },
 };

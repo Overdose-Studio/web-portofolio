@@ -1,4 +1,5 @@
 <template>
+  <!-- Profile Page -->
   <profileTumbnail></profileTumbnail>
   <div class="max-w-screen-xl px-4 py-5 mx-auto text-left md:py-8 lg:px-12">
     <div class="flex justify-between">
