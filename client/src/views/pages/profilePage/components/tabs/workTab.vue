@@ -4,13 +4,13 @@
   >
     <!-- Grid -->
     <ul class="grid w-full gap-6 md:grid-cols-3 grid-cols-2">
-      <project-preview v-for="number in 10"></project-preview>
+      <projectCard v-for="number in 10"></projectCard>
     </ul>
   </div>
 </template>
 <script>
-import projectPreview from "@/views/components/ProjectPreview.vue";
+import projectCard from "@/views/components/projectCard.vue";
 export default {
-  components: { projectPreview },
+  components: { projectCard },
 };
 </script>

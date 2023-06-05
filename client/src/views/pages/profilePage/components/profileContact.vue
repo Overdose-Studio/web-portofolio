@@ -19,7 +19,7 @@
             v-if="isProfileHovered"
             class="absolute top-0 right-0 ml-10 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
             type="button"
-            @click.provent="showEditContactModal = true"
+            @click.prevent="showEditContactModal = true"
           >
             <svgIcon
               size="24"
@@ -68,7 +68,7 @@
         </div>
         <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
           <li v-for="link in developerData.links" class="py-3 md:py-4">
-            <a class="cursor-pointer" :href="link.url">
+            <a class="cursor-pointer" :href="link.url" target="_blank">
               <div class="flex flex-shrink-0 items-center space-x-4">
                 <img
                   class="w-8 h-8 rounded-full object-cover"

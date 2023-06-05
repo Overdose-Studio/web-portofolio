@@ -1,47 +1,67 @@
 <template>
-  <section class="bg-white dark:bg-gray-900 lg:pt-64">
-    <div class="max-w-screen-xl px-4 py-8 mx-auto text-left lg:py-16 lg:px-12">
-      <!-- Title -->
-      <h1
-        class="mb-4 text-4xl font-extrabold leading-left tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"
-      >
-        {{ heroSection.sectionTitle }}
-      </h1>
-      <!-- Subtitle -->
-      <p
-        class="mb-8 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400"
-      >
-        {{ heroSection.sectionContent }}
-      </p>
-      <!-- Button -->
-      <div
-        class="flex flex-col flex-wrap items-left mb-8 space-y-4 lg:mb-16 sm:flex-row sm:space-y-0 sm:space-x-4"
-      >
-        <a
-          href="#"
-          class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
-        >
-          Learn more
-          <svg
-            class="w-5 h-5 ml-2 -mr-1"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
+  <section class="bg-white dark:bg-gray-900">
+    <div
+      class="max-w-screen-xl h-screen px-4 py-8 mx-auto text-left lg:px-12 bg-cover bg-center"
+      :style="{
+        backgroundImage: `url(@/assets/image/landingPageBackground.png)`,
+      }"
+    >
+      <div class="flex flex-row">
+        <!-- Content -->
+        <div class="flex flex-col w-1/2">
+          <!-- Subtitle -->
+          <p
+            class="mt-20 text-lg font-light text-gray-500 lg:text-xl dark:text-gray-400"
           >
-            <path
-              fill-rule="evenodd"
-              d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
-        </a>
+            {{ heroSection.sectionContent }}
+          </p>
+          <!-- Title -->
+          <h1
+            class="mb-12 text-4xl font-extrabold leading-left text-gray-900 md:text-5xl lg:text-6xl dark:text-white"
+          >
+            {{ heroSection.sectionTitle }}
+          </h1>
+          <!-- Buttons -->
+          <div class="flex flex-row space-x-5">
+            <!-- See Our Portofolio -->
+            <primaryButton :buttonTitle="'See Our Portofolio'"></primaryButton>
+            <!-- About us -->
+            <outlineButton :buttonTitle="'About Us'"> </outlineButton>
+          </div>
+        </div>
+        <!-- Project Preview -->
+        <div class="flex flex-col w-1/2 h-screen justify-center space-y-10">
+          <div class="flex flex-row justify-end items-end space-x-10">
+            <projectPreview
+              :imageSize="{ width: '150px', height: '150px' }"
+            ></projectPreview>
+            <projectPreview
+              :imageSize="{ width: '150px', height: '300px' }"
+            ></projectPreview>
+          </div>
+          <div class="flex flex-row justify-end space-x-10">
+            <projectPreview
+              :imageSize="{ width: '150px', height: '200px' }"
+            ></projectPreview>
+            <projectPreview
+              :imageSize="{ width: '150px', height: '150px' }"
+            ></projectPreview>
+            <projectPreview
+              :imageSize="{ width: '150px', height: '150px' }"
+            ></projectPreview>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 </template>
 
 <script>
+import primaryButton from "../../../components/buttons/primaryButton.vue";
+import outlineButton from "../../../components/buttons/outlineButton.vue";
+import projectPreview from "@/views/components/projectPreview.vue";
 export default {
+  components: { primaryButton, outlineButton, projectPreview },
   props: {
     // props validation with default value
     heroSection: {
@@ -53,6 +73,11 @@ export default {
         };
       },
     },
+  },
+  data() {
+    return {
+      backgroundImageUrl: "@/assets/image/landingPageBackground.png",
+    };
   },
 };
 </script>

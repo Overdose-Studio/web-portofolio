@@ -49,7 +49,6 @@
               id="{{link}}{{ index+1 }}"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
               placeholder="Link URL"
-              :value="link.url"
               v-model="links[index].url"
               required
             />
@@ -147,7 +146,11 @@ export default {
     cancel() {
       this.links = this.linksData;
     },
+    removeEmptyLink() {
+      this.links = this.links.filter((link) => link.url !== "");
+    },
     save() {
+      this.removeEmptyLink();
       this.$emit("update:linksData", this.links);
       this.$emit("close");
     },
