@@ -1,19 +1,19 @@
 <template>
   <hero-section :heroSection="pageContent[0]"></hero-section>
-  <RecentWorkSection :recentWorkSection="pageContent[2]"></RecentWorkSection>
-  <Footer :footerSection="pageContent[4]"></Footer>
+  <recentWorkSection :recentWorkSection="pageContent[2]"></recentWorkSection>
+  <footerSection :footerSection="pageContent[4]"></footerSection>
 </template>
 
 <script>
 import heroSection from "./sections/heroSection.vue";
-import RecentWorkSection from "./sections/recentWorkSection.vue";
-import Footer from "./sections/Footer.vue";
+import recentWorkSection from "./sections/recentWorkSection.vue";
+import footerSection from "../../components/footer.vue";
 
 export default {
   components: {
     heroSection,
-    RecentWorkSection,
-    Footer,
+    recentWorkSection,
+    footerSection,
   },
 
   props: {

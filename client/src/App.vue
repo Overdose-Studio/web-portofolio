@@ -1,6 +1,7 @@
 <template>
   <navbar></navbar>
-  <landingPage v-if="pages.length > 0" :page="pages[0]"></landingPage>
+  <!-- <landingPage v-if="pages.length > 0" :page="pages[0]"></landingPage> -->
+  <aboutUsPage v-if="pages.length > 0" :page="pages[0]"></aboutUsPage>
   <!-- <project-page></project-page> -->
   <!-- <profile-page></profile-page> -->
 </template>
@@ -8,6 +9,7 @@
 <script>
 import navbar from "./views/components/navbar.vue";
 import landingPage from "./views/pages/landingPage/landingPage.vue";
+import aboutUsPage from "./views/pages/aboutUsPage/aboutUsPage.vue";
 import ProjectPage from "./views/pages/projectPage/ProjectPage.vue";
 import ProfilePage from "./views/pages/profilePage/ProfilePage.vue";
 
@@ -15,6 +17,7 @@ export default {
   components: {
     navbar,
     landingPage,
+    aboutUsPage,
     ProjectPage,
     ProfilePage,
   },

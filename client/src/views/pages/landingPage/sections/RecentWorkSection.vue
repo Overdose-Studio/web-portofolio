@@ -16,6 +16,8 @@
     <!-- Category Navigation -->
     <category
       :categories="recentWorkSection.sectionContent.categories"
+      :activeCategory="activeCategory"
+      :categoryClick="(index) => (activeCategory = index)"
     ></category>
     <div class="px-4 mx-auto text-center md:max-w-screen-md lg:max-w-screen-lg">
       <!-- Project Preview -->
@@ -24,7 +26,7 @@
       >
         <!-- Grid -->
         <ul class="grid w-full gap-6 md:grid-cols-4 grid-cols-3">
-          <ProjectCard v-for="number in 4"></ProjectCard>
+          <projectCard v-for="number in 8"></projectCard>
         </ul>
       </div>
     </div>
@@ -34,12 +36,12 @@
 <script>
 import colors from "@/assets/colors/colors";
 import category from "../../../components/category.vue";
-import ProjectCard from "../../../components/projectCard.vue";
+import projectCard from "../../../components/projectCard.vue";
 
 export default {
   components: {
     category,
-    ProjectCard,
+    projectCard,
   },
   props: {
     // props validation with default value
@@ -55,6 +57,7 @@ export default {
   },
   data() {
     return {
+      activeCategory: 0,
       colorOptions: colors,
     };
   },

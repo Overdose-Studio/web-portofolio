@@ -1,19 +1,23 @@
 <template>
-  <WhatWeDoSection :whatWeDoSection="pageContent[1]"></WhatWeDoSection>
-  <ReasonSection :reasonSection="pageContent[3]"></ReasonSection>
-  <Footer :footerSection="pageContent[4]"></Footer>
+  <div
+    class="bg-red-100 my-16 mx-32 text-center md:max-w-screen justify-center bg-cover bg-center bg-no-repeat bg-custom-image"
+  >
+    <whatWeDoSection :whatWeDoSection="pageContent[1]"></whatWeDoSection>
+    <reasonSection :reasonSection="pageContent[3]"></reasonSection>
+  </div>
+  <footerSection :footerSection="pageContent[4]"></footerSection>
 </template>
 
 <script>
-import WhatWeDoSection from "./sections/WhatWeDoSection.vue";
-import ReasonSection from "./sections/ReasonSection.vue";
-import Footer from "./sections/Footer.vue";
+import whatWeDoSection from "./sections/whatWeDoSection.vue";
+import reasonSection from "./sections/reasonSection.vue";
+import footerSection from "../../components/footer.vue";
 
 export default {
   components: {
-    WhatWeDoSection,
-    ReasonSection,
-    Footer,
+    whatWeDoSection,
+    reasonSection,
+    footerSection,
   },
 
   props: {
@@ -35,3 +39,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.bg-custom-image {
+  background-image: url("@/assets/image/aboutUsBackground.png");
+}
+</style>

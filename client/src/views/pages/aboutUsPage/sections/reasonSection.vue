@@ -1,6 +1,6 @@
 <template>
-  <section class="bg-white dark:bg-gray-900 lg:py-32">
-    <div class="px-4 mx-auto text-left md:max-w-screen-md lg:max-w-screen-lg">
+  <section class="bg-transprent">
+    <div class="text-left md:max-w-screen p-16">
       <!-- Section Title -->
       <h2
         class="mb-4 text-3xl font-bold leading-left tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white"
@@ -15,20 +15,21 @@
         <ul class="grid w-full gap-6 grid-cols-3">
           <li v-for="(reason, index) in reasonSection.sectionContent.reasons">
             <label
-              class="inline-flex items-left justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800"
+              class="inline-flex items-left w-full p-7 text-gray-500 border border-gray-200 rounded-lg dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800"
+              :style="{ backgroundColor: colorOptions.ACCENT_PRIMARY }"
             >
+              <h2
+                class="mr-5 text-3xl font-bold leading-left tracking-tight text-gray-900 md:text-6xl text-white"
+              >
+                {{ index + 1 }}
+              </h2>
               <div class="block text-left">
-                <h2
-                  class="mb-4 text-3xl font-bold leading-left tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white"
-                >
-                  {{ index + 1 }}
-                </h2>
                 <h1
-                  class="text-xl md:text-2xl font-bold leading-left tracking-tight text-gray-900 dark:text-white"
+                  class="text-xl md:text-2xl font-bold leading-left tracking-tight text-gray-900 text-white"
                 >
                   {{ reason }}
                 </h1>
-                <div class="w-full">
+                <div class="w-full text-white font-light">
                   {{ reasonSection.sectionContent.reasonDescriptions[index] }}
                 </div>
               </div>
@@ -37,7 +38,7 @@
         </ul>
       </div>
       <!-- Heading -->
-      <div class="flex w-full justify-between items-center">
+      <div class="flex flex-col w-full items-left">
         <h2
           class="mb-4 text-3xl font-bold leading-left text-gray-900 md:text-4xl lg:text-5xl dark:text-white"
         >
@@ -54,6 +55,7 @@
 </template>
 
 <script>
+import colors from "@/assets/colors/colors";
 export default {
   props: {
     // props validation with default value
@@ -66,6 +68,11 @@ export default {
         };
       },
     },
+  },
+  data() {
+    return {
+      colorOptions: colors,
+    };
   },
 };
 </script>
